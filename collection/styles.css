@@ -1,0 +1,385 @@
+:root {
+  color-scheme: dark;
+  font-family: 'Inter', sans-serif;
+  background: #121212;
+  color: #f5f5f5;
+  font-size: 16px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  background: #111;
+}
+
+img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.page-shell {
+  position: relative;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 0 32px 80px;
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 24px 0;
+  backdrop-filter: blur(12px);
+  background: rgba(19, 19, 19, 0.7);
+}
+
+.brand {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.topbar-nav {
+  display: flex;
+  gap: 48px;
+}
+
+.nav-link {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+  color: #919191;
+  background: transparent;
+  padding: 8px 0;
+}
+
+.nav-link.active {
+  color: #fff;
+  border-bottom: 2px solid #fff;
+}
+
+.icon-button {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(145, 145, 145, 0.3);
+  border-radius: 50%;
+}
+
+.collection-page {
+  display: flex;
+  flex-direction: column;
+  gap: 80px;
+}
+
+.collection-hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 32px;
+  padding-top: 48px;
+}
+
+.collections-copy {
+  max-width: 672px;
+  min-height: 225px;
+  position: relative;
+}
+
+.hero-title {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 8px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.hero-title span:first-child {
+  font-size: 4.5rem;
+  letter-spacing: -0.05em;
+  line-height: 0.9;
+}
+
+.hero-title .subline {
+  font-size: 4.5rem;
+  color: #919191;
+  letter-spacing: -0.05em;
+  line-height: 0.9;
+}
+
+.hero-text {
+  position: absolute;
+  top: 189px;
+  left: 0;
+  color: rgba(199, 198, 198, 0.8);
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.hero-text p {
+  margin: 0;
+}
+
+.collection-filters {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 120px;
+  padding: 12px 24px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  border: 1px solid transparent;
+  color: #c7c6c6;
+}
+
+.pill.active {
+  background: #fff;
+  color: #1a1c1c;
+}
+
+.catalogue-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 96px 48px;
+}
+
+.catalogue-card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.catalogue-image {
+  position: relative;
+  background: #0e0e0e;
+  overflow: hidden;
+}
+
+.catalogue-image img {
+  width: 100%;
+  height: 600px;
+  object-fit: cover;
+}
+
+.tag {
+  position: absolute;
+  right: 16px;
+  top: 16px;
+  background: #353534;
+  padding: 4px 12px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.625rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #c6c6c6;
+}
+
+.catalogue-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 32px;
+}
+
+.catalogue-meta h2 {
+  margin: 0;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.125rem;
+  text-transform: uppercase;
+  letter-spacing: -0.05em;
+}
+
+.catalogue-meta p {
+  margin: 0;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.625rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #919191;
+}
+
+.price {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 800;
+  font-size: 1.125rem;
+  color: #e5e2e1;
+}
+
+.catalogue-sizes {
+  display: flex;
+  gap: 8px;
+}
+
+.catalogue-sizes span,
+.catalogue-size-full {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
+  height: 32px;
+  border: 1px solid #474747;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.625rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #e5e2e1;
+}
+
+.catalogue-size-full {
+  min-width: auto;
+  padding: 0 16px;
+}
+
+.load-more-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 48px;
+}
+
+.load-more {
+  padding: 21px 65px;
+  border: 1px solid #474747;
+  background: transparent;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #e5e2e1;
+}
+
+.divider {
+  width: 160px;
+  height: 1px;
+  background: rgba(71, 71, 71, 0.3);
+}
+
+.collection-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 32px;
+  padding: 80px 0 0;
+}
+
+.footer-links {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.footer-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.125rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+}
+
+.footer-nav {
+  display: flex;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+.footer-nav a {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.625rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #474747;
+}
+
+.footer-meta {
+  display: flex;
+  align-items: flex-end;
+  color: #474747;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.625rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 1280px) {
+  .collection-page {
+    gap: 56px;
+  }
+
+  .collection-hero {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .topbar {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .catalogue-grid {
+    grid-template-columns: 1fr;
+    gap: 64px;
+  }
+}
+
+@media (max-width: 768px) {
+  .page-shell {
+    padding: 0 24px 56px;
+  }
+
+  .hero-title span {
+    font-size: 3rem;
+  }
+
+  .hero-text {
+    position: static;
+    margin-top: 24px;
+  }
+
+  .topbar-nav {
+    gap: 24px;
+  }
+
+  .collection-footer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

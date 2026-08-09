@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>24/SIETE INDUSTRIAL</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="../shared-cart-drawer.css" />
+  </head>
+  <body>
+    <header class="page-header">
+      <div class="brand">24/SIETE</div>
+      <nav class="primary-nav" aria-label="Navegación principal">
+        <a href="#products" class="nav-link active">SHOP</a>
+        <a href="#collection" class="nav-link">COLLECTIONS</a>
+      </nav>
+      <button class="icon-button" aria-label="Carrito">
+        <span>🛒</span>
+      </button>
+    </header>
+
+    <main class="page-content">
+      <section class="hero-section" id="collection">
+        <div class="hero-background"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-copy">
+          <div class="hero-pill">DROP LIMITADO</div>
+          <h1>
+            PRENDAS<br />INTERVENIDAS
+          </h1>
+          <p>
+            Nuestra serie industrial fusiona procesos químicos con siluetas
+            sobredimensionadas. Cada pieza es única, numerada y producida bajo
+            demanda.
+          </p>
+          <div class="hero-actions">
+            <a href="#products" class="btn btn-primary">VER COLECCIÓN</a>
+            <a href="#archive" class="btn btn-secondary">ARCHIVO 24/7</a>
+          </div>
+        </div>
+        <div class="hero-scroll" id="hero-scroll">
+          <span>EXPLORAR MATERIAL</span>
+          <div class="scroll-line"></div>
+        </div>
+      </section>
+
+      <section class="inventory-section" id="products">
+        <div class="inventory-header">
+          <div>
+            <h2>CURRENT INVENTORY</h2>
+            <p>
+              Series de producción limitada. Una vez agotadas, el diseño entra en
+              el archivo permanente y no vuelve a circular.
+            </p>
+          </div>
+          <div class="inventory-filters" role="tablist" aria-label="Categorías">
+            <button class="filter active" type="button">BUZOS</button>
+            <button class="filter" type="button">REMERAS</button>
+            <button class="filter" type="button">ACCESORIOS</button>
+          </div>
+        </div>
+
+        <div class="products-grid">
+          <article class="product-card">
+            <div class="product-figure">
+              <img src="https://www.figma.com/api/mcp/asset/adc85f18-d601-4f86-90a3-6384b8902129.png" alt="Carbon oversized hoodie" />
+              <span class="product-badge">IN STOCK</span>
+            </div>
+            <div class="product-details">
+              <div>
+                <h3>CARBON OVERSIZED HOODIE</h3>
+                <p>FABRIC: 450GSM FRENCH TERRY</p>
+              </div>
+              <span>$120.00</span>
+            </div>
+          </article>
+
+          <article class="product-card">
+            <div class="product-figure">
+              <img src="https://www.figma.com/api/mcp/asset/d792ce73-5d59-4b2e-a88d-396b3382c528.png" alt="Acid wash intervention tee" />
+              <span class="product-badge">LIMITED 50/50</span>
+            </div>
+            <div class="product-details">
+              <div>
+                <h3>ACID WASH INTERVENTION TEE</h3>
+                <p>CHEMICAL TREATED: HANDMADE</p>
+              </div>
+              <span>$65.00</span>
+            </div>
+          </article>
+
+          <article class="product-card">
+            <div class="product-figure">
+              <img src="https://www.figma.com/api/mcp/asset/0d12bf05-469d-42d8-b0e7-b4f5e156534d.png" alt="Obsidian technical crewneck" />
+              <span class="product-badge">LAST UNITS</span>
+            </div>
+            <div class="product-details">
+              <div>
+                <h3>OBSIDIAN TECHNICAL CREWNECK</h3>
+                <p>REINFORCED SEAMS: INDUSTRIAL THREAD</p>
+              </div>
+              <span>$105.00</span>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="feature-section">
+        <div class="feature-grid">
+          <div class="feature-large">
+            <div class="feature-figure">
+              <img src="https://www.figma.com/api/mcp/asset/09a500f8-97ae-4767-b282-3f880223d7bf.png" alt="The process" />
+            </div>
+            <div class="feature-copy">
+              <div>
+                <h2>FILOSOFÍA BRUTALISTA</h2>
+                <p>
+                  Nuestras prendas no buscan la perfección estética tradicional,
+                  sino la honestidad del material y la fuerza de la estructura.
+                </p>
+              </div>
+              <a href="#manifesto" class="feature-link">VER MANIFIESTO</a>
+            </div>
+          </div>
+
+          <div class="feature-secondary">
+            <div class="secondary-card card-large">
+              <img class="accent-icon" src="https://www.figma.com/api/mcp/asset/9442fd00-9ed5-43cf-a850-9526ddd469f7.svg" alt="Decorative line" />
+              <div>
+                <h3>MAQUINARIA INDUSTRIAL</h3>
+                <p>Costuras reforzadas con hilos de alta densidad diseñados para durar décadas.</p>
+              </div>
+            </div>
+
+            <div class="secondary-card card-dark">
+              <div>
+                <h3>DROP 004</h3>
+                <p>Disponible hasta agotar existencias físicas. Sin reposiciones programadas.</p>
+              </div>
+              <div class="progress-bar">
+                <span></span><span></span><span></span>
+              </div>
+              <img class="corner-icon" src="https://www.figma.com/api/mcp/asset/bd378377-ebad-4f73-ba0c-56347a742739.svg" alt="Corner texture" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="spec-banner" id="archive">
+        <div class="marquee-row">COTTON 400GSM</div>
+        <div class="marquee-row">NYLON REFORZADO</div>
+        <div class="marquee-row">ACERO QUIRÚRGICO</div>
+        <div class="marquee-row">EDICIÓN NUMERADA</div>
+        <div class="marquee-row">HECHO EN ARGENTINA</div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div>
+        <strong>24/SIETE INDUSTRIAL</strong>
+        <div class="footer-links">
+          <a href="#">TERMS</a>
+          <a href="#">SHIPPING</a>
+          <a href="#">CONTACT</a>
+          <a href="#">ARCHIVE</a>
+        </div>
+      </div>
+      <div class="footer-meta">
+        <div class="social-icons">
+          <img src="https://www.figma.com/api/mcp/asset/f567a550-6ced-4c39-a276-a7a537306960.svg" alt="Social icon" />
+          <img src="https://www.figma.com/api/mcp/asset/d875cbe5-4a50-45bf-8646-e118bdd41ec7.svg" alt="Social icon" />
+        </div>
+        <p>© 2024 24/SIETE INDUSTRIAL</p>
+      </div>
+    </footer>
+
+    <script src="../shared-cart-drawer.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
