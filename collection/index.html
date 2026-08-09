@@ -11,20 +11,29 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="../shared-navbar.css" />
     <link rel="stylesheet" href="../shared-cart-drawer.css" />
   </head>
   <body>
+    <header class="site-navbar">
+      <a class="navbar-brand" href="../index.html">24/SIETE</a>
+      <nav class="navbar-icons" aria-label="Navegación principal">
+        <a class="navbar-icon" href="../index.html" aria-label="Home" title="HOME">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M9 21v-6h6v6"/></svg>
+        </a>
+        <a class="navbar-icon active" href="./index.html" aria-label="Collection" title="COLLECTION">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.38 3.46 16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z"/></svg>
+        </a>
+        <a class="navbar-icon" href="../contacto/index.html" aria-label="Contacto" title="CONTACTO">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        </a>
+      </nav>
+      <button class="navbar-cart" aria-label="Carrito">
+        <span>🛒</span>
+        <span class="cart-badge" hidden>0</span>
+      </button>
+    </header>
     <div class="page-shell">
-      <header class="topbar">
-        <div class="brand">24/SIETE</div>
-        <nav class="topbar-nav" aria-label="Main navigation">
-          <button class="nav-link active" data-section="shop">SHOP</button>
-          <button class="nav-link" data-section="collections">COLLECTIONS</button>
-        </nav>
-        <button class="icon-button" aria-label="Carrito">
-          <span class="cart-icon">🛒</span>
-        </button>
-      </header>
 
       <main class="collection-page">
         <section class="collection-hero">
@@ -48,7 +57,7 @@
         </section>
 
         <section class="catalogue-grid">
-          <article class="catalogue-card">
+          <a class="catalogue-card" href="../product_detail/index.html">
             <div class="catalogue-image">
               <img src="https://www.figma.com/api/mcp/asset/79c85cb7-d308-4dc8-816a-46a90f0581d1.png" alt="Core oversized tee" />
               <span class="tag">S/N: 247-01</span>
@@ -65,9 +74,9 @@
               <span>M</span>
               <span>L</span>
             </div>
-          </article>
+            </a>
 
-          <article class="catalogue-card">
+          <a class="catalogue-card" href="../product_detail/index.html">
             <div class="catalogue-image">
               <img src="https://www.figma.com/api/mcp/asset/23178b5b-6b8a-4174-ac38-ed27f5a3512a.png" alt="Structural hoodie" />
               <span class="tag">S/N: 247-02</span>
@@ -84,9 +93,9 @@
               <span>L</span>
               <span>XL</span>
             </div>
-          </article>
+            </a>
 
-          <article class="catalogue-card">
+          <a class="catalogue-card" href="../product_detail/index.html">
             <div class="catalogue-image">
               <img src="https://www.figma.com/api/mcp/asset/500d0e03-4c0d-4745-a913-5895fccd4ad2.png" alt="Tactical sling" />
               <span class="tag">S/N: 247-03</span>
@@ -99,9 +108,9 @@
               <span class="price">$55.00</span>
             </div>
             <div class="catalogue-sizes catalogue-size-full">ONE SIZE</div>
-          </article>
+            </a>
 
-          <article class="catalogue-card">
+          <a class="catalogue-card" href="../product_detail/index.html">
             <div class="catalogue-image">
               <img src="https://www.figma.com/api/mcp/asset/06f20c4c-d31f-4cbc-9569-b67665c5fa79.png" alt="Thermal base layer" />
               <span class="tag">S/N: 247-04</span>
@@ -117,9 +126,9 @@
               <span>S</span>
               <span>M</span>
             </div>
-          </article>
+            </a>
 
-          <article class="catalogue-card">
+          <a class="catalogue-card" href="../product_detail/index.html">
             <div class="catalogue-image">
               <img src="https://www.figma.com/api/mcp/asset/f4d6488a-0db0-4d5c-9e4a-bf67f11d7463.png" alt="Reflective logo tee" />
               <span class="tag">S/N: 247-05</span>
@@ -135,9 +144,9 @@
               <span>M</span>
               <span>L</span>
             </div>
-          </article>
+            </a>
 
-          <article class="catalogue-card">
+          <a class="catalogue-card" href="../product_detail/index.html">
             <div class="catalogue-image">
               <img src="https://www.figma.com/api/mcp/asset/5f2c73c6-f1e8-4892-804b-a7bb55207633.png" alt="Monolith parka" />
               <span class="tag">S/N: 247-06</span>
@@ -153,7 +162,7 @@
               <span>L</span>
               <span>XL</span>
             </div>
-          </article>
+            </a>
         </section>
 
         <section class="load-more-section">
@@ -168,8 +177,8 @@
           <div class="footer-nav">
             <a href="#">TERMS</a>
             <a href="#">SHIPPING</a>
-            <a href="#">CONTACT</a>
-            <a href="#">ARCHIVE</a>
+            <a href="../contacto/index.html">CONTACT</a>
+            <a href="../index.html#archive">ARCHIVE</a>
           </div>
         </div>
         <div class="footer-meta">

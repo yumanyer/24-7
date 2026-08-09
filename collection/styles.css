@@ -188,6 +188,11 @@ button {
   display: flex;
   flex-direction: column;
   gap: 16px;
+  transition: opacity 0.3s ease;
+}
+
+.catalogue-card:hover {
+  opacity: 0.85;
 }
 
 .catalogue-image {

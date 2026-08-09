@@ -12,7 +12,7 @@ html {
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    font-family: 'Inter', 'Space Grotesk', sans-serif;
     background-color: #0a0a0a;
     color: #ffffff;
     line-height: 1.6;
@@ -35,65 +35,6 @@ img {
     max-width: 100%;
     height: auto;
     display: block;
-}
-
-/* ============================================
-   HEADER
-   ============================================ */
-.header {
-    background-color: #0a0a0a;
-    border-bottom: 1px solid #222;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-}
-
-.header-container {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 20px 30px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.logo {
-    font-size: 18px;
-    font-weight: 900;
-    letter-spacing: 2px;
-}
-
-.nav {
-    display: flex;
-    gap: 40px;
-}
-
-.nav-link {
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    transition: opacity 0.3s ease;
-}
-
-.nav-link:hover {
-    opacity: 0.7;
-}
-
-.cart-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    border: 1px solid #333;
-    border-radius: 4px;
-    transition: all 0.3s ease;
-}
-
-.cart-btn:hover {
-    border-color: #666;
-    transform: scale(1.05);
 }
 
 /* ============================================

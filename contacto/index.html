@@ -11,23 +11,29 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="../shared-navbar.css" />
     <link rel="stylesheet" href="../shared-cart-drawer.css" />
   </head>
   <body>
+    <header class="site-navbar">
+      <a class="navbar-brand" href="../index.html">24/SIETE</a>
+      <nav class="navbar-icons" aria-label="Navegación principal">
+        <a class="navbar-icon" href="../index.html" aria-label="Home" title="HOME">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M9 21v-6h6v6"/></svg>
+        </a>
+        <a class="navbar-icon" href="../collection/index.html" aria-label="Collection" title="COLLECTION">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.38 3.46 16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z"/></svg>
+        </a>
+        <a class="navbar-icon active" href="./index.html" aria-label="Contacto" title="CONTACTO">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        </a>
+      </nav>
+      <button class="navbar-cart" aria-label="Carrito">
+        <span>🛒</span>
+        <span class="cart-badge" hidden>0</span>
+      </button>
+    </header>
     <div class="contact-shell">
-      <header class="contact-header">
-        <div class="brand">24/SIETE</div>
-        <nav class="nav-links" aria-label="Navegación principal">
-          <a href="#" class="nav-item">COLLECTIONS</a>
-          <a href="#" class="nav-item">MANIFIESTO</a>
-          <a href="#" class="nav-item">LOGISTICS</a>
-          <a href="#" class="nav-item">ARCHIVE</a>
-        </nav>
-        <div class="header-actions">
-          <button class="icon-button" aria-label="Carrito">🛒</button>
-          <button class="icon-button" aria-label="Cuenta">⚙</button>
-        </div>
-      </header>
 
       <main class="contact-main">
         <section class="hero">
@@ -120,8 +126,8 @@
       <footer class="contact-footer">
         <div class="footer-brand">24/SIETE</div>
         <div class="footer-links">
-          <a href="#">MANIFESTO</a>
-          <a href="#">LOGISTICS</a>
+          <a href="../index.html#manifesto">MANIFESTO</a>
+          <a href="../collection/index.html">LOGISTICS</a>
           <a href="#">TERMS OF SERVICE</a>
           <a href="#">PRIVACY POLICY</a>
         </div>
@@ -130,6 +136,5 @@
     </div>
 
     <script src="../shared-cart-drawer.js"></script>
-    <script src="script.js"></script>
   </body>
 </html>

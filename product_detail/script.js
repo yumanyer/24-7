@@ -16,10 +16,9 @@ document.querySelectorAll('.size-btn').forEach(button => {
 // BUY BUTTON FUNCTIONALITY
 // ============================================
 const buyBtn = document.getElementById('buyBtn');
-const cartBtn = document.getElementById('cartBtn');
 
 if (buyBtn) {
-    buyBtn.addEventListener('click', function(e) {
+    buyBtn.addEventListener('click', function() {
         // Get selected size
         const selectedSize = document.querySelector('.size-btn.active');
         
@@ -36,8 +35,10 @@ if (buyBtn) {
             image: 'https://via.placeholder.com/400x500?text=OBSIDIAN+CORE+HOODIE'
         };
 
-        // Add to cart (localStorage)
-        addToCart(product);
+        // Add to cart and open the shared drawer
+        if (window.cartDrawer) {
+            window.cartDrawer.addItem(product);
+        }
 
         // Show confirmation
         const originalText = buyBtn.textContent;
@@ -50,41 +51,6 @@ if (buyBtn) {
             buyBtn.style.backgroundColor = '#ffffff';
             buyBtn.style.color = '#0a0a0a';
         }, 2000);
-    });
-}
-
-// ============================================
-// CART MANAGEMENT
-// ============================================
-function addToCart(product) {
-    let cart = JSON.parse(localStorage.getItem('cart')) || [];
-    cart.push(product);
-    localStorage.setItem('cart', JSON.stringify(cart));
-    updateCartCount();
-}
-
-function getCartCount() {
-    const cart = JSON.parse(localStorage.getItem('cart')) || [];
-    return cart.length;
-}
-
-function updateCartCount() {
-    const count = getCartCount();
-    // You can update a cart counter badge here if needed
-    console.log('Carrito actualizado:', count);
-}
-
-// ============================================
-// CART BUTTON
-// ============================================
-if (cartBtn) {
-    cartBtn.addEventListener('click', function() {
-        const count = getCartCount();
-        if (count > 0) {
-            console.log(`Ir al carrito con ${count} producto(s)`);
-            // Aquí podrías redirigir a una página de carrito
-            // window.location.href = '/carrito';
-        }
     });
 }
 
@@ -179,37 +145,6 @@ document.querySelectorAll('.product-card').forEach(card => {
             image.style.transform = 'scale(1)';
         }
     });
-});
-
-// ============================================
-// NAV LINK HIGHLIGHTING
-// ============================================
-document.querySelectorAll('.nav-link').forEach(link => {
-    link.addEventListener('click', function(e) {
-        e.preventDefault();
-        
-        // Remove active state from all links
-        document.querySelectorAll('.nav-link').forEach(l => {
-            l.style.opacity = '1';
-        });
-        
-        // Add active state to clicked link
-        this.style.opacity = '0.5';
-    });
-});
-
-// ============================================
-// HEADER SHADOW ON SCROLL
-// ============================================
-window.addEventListener('scroll', function() {
-    const header = document.querySelector('.header');
-    if (window.scrollY > 50) {
-        header.style.borderBottomColor = '#333';
-        header.style.backgroundColor = 'rgba(10, 10, 10, 0.95)';
-    } else {
-        header.style.borderBottomColor = '#222';
-        header.style.backgroundColor = '#0a0a0a';
-    }
 });
 
 // ============================================

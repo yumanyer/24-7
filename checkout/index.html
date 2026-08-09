@@ -11,19 +11,29 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="../shared-navbar.css" />
+    <link rel="stylesheet" href="../shared-cart-drawer.css" />
   </head>
   <body>
+    <header class="site-navbar">
+      <a class="navbar-brand" href="../index.html">24/SIETE</a>
+      <nav class="navbar-icons" aria-label="Navegación principal">
+        <a class="navbar-icon" href="../index.html" aria-label="Home" title="HOME">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M9 21v-6h6v6"/></svg>
+        </a>
+        <a class="navbar-icon" href="../collection/index.html" aria-label="Collection" title="COLLECTION">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.38 3.46 16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z"/></svg>
+        </a>
+        <a class="navbar-icon" href="../contacto/index.html" aria-label="Contacto" title="CONTACTO">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        </a>
+      </nav>
+      <button class="navbar-cart" aria-label="Carrito">
+        <span>🛒</span>
+        <span class="cart-badge" hidden>0</span>
+      </button>
+    </header>
     <div class="checkout-shell">
-      <header class="checkout-topbar">
-        <div class="brand">24/SIETE</div>
-        <nav class="topbar-nav" aria-label="Navegación del sitio">
-          <button class="topbar-link">SHOP</button>
-          <button class="topbar-link">COLLECTIONS</button>
-        </nav>
-        <button class="cart-button" aria-label="Carrito">
-          🛒
-        </button>
-      </header>
 
       <main class="checkout-main">
         <section class="checkout-heading">
@@ -90,35 +100,14 @@
 
           <aside class="checkout-summary">
             <div class="summary-heading">RESUMEN DE ORDEN</div>
-            <div class="summary-items">
-              <div class="summary-item">
-                <div class="summary-item-media">
-                  <img src="https://www.figma.com/api/mcp/asset/233d60cd-4bfe-4d1e-9fe9-ef3faa39e21e.png" alt="Heavy hoodie carbon" />
-                </div>
-                <div class="summary-item-info">
-                  <div class="summary-item-title">HEAVY HOODIE "CARBON"</div>
-                  <div class="summary-item-meta">SIZE: XL / COLOR: OBSIDIAN</div>
-                </div>
-                <div class="summary-item-price">$85.000</div>
-              </div>
-              <div class="summary-item">
-                <div class="summary-item-media">
-                  <img src="https://www.figma.com/api/mcp/asset/07d1a309-2544-4c1b-949b-6ebebd958322.png" alt="Cargo pant monolith" />
-                </div>
-                <div class="summary-item-info">
-                  <div class="summary-item-title">CARGO PANT "MONOLITH"</div>
-                  <div class="summary-item-meta">SIZE: 34 / COLOR: CARBON</div>
-                </div>
-                <div class="summary-item-price">$110.000</div>
-              </div>
-            </div>
+            <div class="summary-items" id="summaryItems"></div>
 
             <div class="summary-breakline"></div>
 
             <div class="summary-totals">
               <div class="summary-row">
                 <span>SUBTOTAL</span>
-                <strong>$195.000</strong>
+                <strong class="js-subtotal">$0.00</strong>
               </div>
               <div class="summary-row">
                 <span>ENVÍO</span>
@@ -126,11 +115,11 @@
               </div>
               <div class="summary-row total-row">
                 <span>TOTAL</span>
-                <strong>$195.000</strong>
+                <strong class="js-total">$0.00</strong>
               </div>
             </div>
 
-            <button class="checkout-button" type="button">FINALIZAR COMPRA</button>
+            <button class="checkout-button" type="button" id="finalizeBtn">FINALIZAR COMPRA</button>
 
             <div class="security-note">
               <img src="https://www.figma.com/api/mcp/asset/31e12c1b-e04b-4743-91a3-79a799fafa72.svg" alt="Lock icon" />
@@ -148,12 +137,13 @@
         <div class="footer-links">
           <a href="#">TERMS</a>
           <a href="#">SHIPPING</a>
-          <a href="#">CONTACT</a>
-          <a href="#">ARCHIVE</a>
+          <a href="../contacto/index.html">CONTACT</a>
+          <a href="../index.html#archive">ARCHIVE</a>
         </div>
       </footer>
     </div>
 
+    <script src="../shared-cart-drawer.js"></script>
     <script src="script.js"></script>
   </body>
 </html>

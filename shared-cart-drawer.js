@@ -22,6 +22,7 @@ class CartDrawer {
     this.overlay = document.querySelector('.cart-drawer-overlay');
     this.cartBtn = document.querySelector('[aria-label="Carrito"]');
     this.closeBtn = document.querySelector('.cart-drawer-close');
+    this.checkoutBtn = document.querySelector('.cart-checkout-btn');
     
     // Set up event listeners
     this.setupEventListeners();
@@ -84,6 +85,16 @@ class CartDrawer {
     // Close cart
     if (this.closeBtn) {
       this.closeBtn.addEventListener('click', () => this.close());
+    }
+
+    // Go to checkout
+    if (this.checkoutBtn) {
+      this.checkoutBtn.addEventListener('click', () => {
+        const items = this.getCartItems();
+        if (items.length === 0) return;
+        this.close();
+        window.location.href = this.getCheckoutUrl();
+      });
     }
 
     // Close on overlay click
@@ -167,6 +178,26 @@ class CartDrawer {
 
     // Update summary
     this.updateSummary(cartItems);
+    this.updateBadge();
+  }
+
+  updateBadge() {
+    const count = this.getCartItems().length;
+    const badge = document.querySelector('.cart-badge');
+    if (!badge) return;
+
+    if (count > 0) {
+      badge.hidden = false;
+      badge.textContent = count > 99 ? '99+' : count;
+    } else {
+      badge.hidden = true;
+    }
+  }
+
+  getCheckoutUrl() {
+    const path = window.location.pathname;
+    const inSubdir = /^\/[^/]+\//.test(path) && !path.replace(/\?.*/, '').endsWith('/');
+    return inSubdir ? '../checkout/index.html' : 'checkout/index.html';
   }
 
   updateSummary(items) {
