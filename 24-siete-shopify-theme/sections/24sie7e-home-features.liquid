@@ -1,0 +1,210 @@
+{%- liquid
+  assign primary_image_alt = section.settings.primary_image.alt | default: section.settings.primary_heading | escape
+-%}
+
+<section id="manifesto" class="sie7e24-home sie7e24-home-features">
+  <div class="sie7e24-home__inner">
+    <div class="sie7e24-home-features__grid">
+      <article class="sie7e24-home-features__primary">
+        <div class="sie7e24-home-features__primary-media">
+          {%- if section.settings.primary_image != blank -%}
+            {{
+              section.settings.primary_image
+              | image_url: width: 1800
+              | image_tag:
+                loading: 'lazy',
+                widths: '550, 750, 1100, 1500, 1800',
+                sizes: '(min-width: 1200px) 60vw, 100vw',
+                alt: primary_image_alt
+            }}
+          {%- else -%}
+            <div class="sie7e24-home-features__primary-placeholder" aria-hidden="true"></div>
+          {%- endif -%}
+        </div>
+        <div class="sie7e24-home-features__primary-copy">
+          {%- if section.settings.primary_heading != blank -%}
+            <h2 class="sie7e24-home-features__primary-heading">{{ section.settings.primary_heading | escape }}</h2>
+          {%- endif -%}
+          {%- if section.settings.primary_copy != blank -%}
+            <div class="rte">{{ section.settings.primary_copy }}</div>
+          {%- endif -%}
+          {%- if section.settings.primary_link_label != blank -%}
+            <a class="sie7e24-home-features__link" {% if section.settings.primary_link != blank %}href="{{ section.settings.primary_link }}"{% else %}role="link" aria-disabled="true"{% endif %}>
+              {{ section.settings.primary_link_label | escape }}
+            </a>
+          {%- endif -%}
+        </div>
+      </article>
+
+      <div class="sie7e24-home-features__secondary">
+        {%- for block in section.blocks -%}
+          {%- assign feature_image_alt = block.settings.heading | escape -%}
+          <article class="sie7e24-home-features__card sie7e24-home-features__card--{{ block.settings.card_style }}" {{ block.shopify_attributes }}>
+            {%- if block.settings.icon != blank -%}
+              {{
+                block.settings.icon
+                | image_url: width: 900
+                | image_tag:
+                  loading: 'lazy',
+                  widths: '180, 360, 600, 900',
+                  sizes: '(min-width: 1200px) 25vw, 100vw',
+                  class: 'sie7e24-home-features__card-icon',
+                  alt: feature_image_alt
+              }}
+            {%- endif -%}
+            <div>
+              {%- if block.settings.heading != blank -%}
+                <h3 class="sie7e24-home-features__card-heading">{{ block.settings.heading | escape }}</h3>
+              {%- endif -%}
+              {%- if block.settings.copy != blank -%}
+                <div class="sie7e24-home-features__card-copy rte">{{ block.settings.copy }}</div>
+              {%- endif -%}
+            </div>
+            {%- if block.settings.show_progress -%}
+              <div class="sie7e24-home-features__progress" aria-label="{{ block.settings.progress_label | escape }}">
+                {%- for segment in (1..3) -%}
+                  <span class="{% if segment <= block.settings.progress_active %}is-active{% endif %}"></span>
+                {%- endfor -%}
+              </div>
+            {%- endif -%}
+            {%- if block.settings.corner_image != blank -%}
+              {{
+                block.settings.corner_image
+                | image_url: width: 256
+                | image_tag:
+                  loading: 'lazy',
+                  widths: '128, 256',
+                  sizes: '128px',
+                  class: 'sie7e24-home-features__corner',
+                  alt: ''
+              }}
+            {%- endif -%}
+          </article>
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "24/SIE7E features",
+  "tag": "section",
+  "class": "section-sie7e24-home-features",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "primary_image",
+      "label": "Imagen principal"
+    },
+    {
+      "type": "text",
+      "id": "primary_heading",
+      "label": "Título principal",
+      "default": "FILOSOFÍA BRUTALISTA"
+    },
+    {
+      "type": "richtext",
+      "id": "primary_copy",
+      "label": "Texto principal",
+      "default": "<p>Nuestras prendas no buscan la perfección estética tradicional, sino la honestidad del material y la fuerza de la estructura.</p>"
+    },
+    {
+      "type": "text",
+      "id": "primary_link_label",
+      "label": "Texto del enlace principal",
+      "default": "VER MANIFIESTO"
+    },
+    {
+      "type": "url",
+      "id": "primary_link",
+      "label": "Enlace principal"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Card feature",
+      "limit": 2,
+      "settings": [
+        {
+          "type": "select",
+          "id": "card_style",
+          "label": "Tratamiento visual",
+          "default": "light",
+          "options": [
+            { "value": "light", "label": "Industrial claro" },
+            { "value": "dark", "label": "Industrial oscuro" }
+          ]
+        },
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icono o textura superior"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Título"
+        },
+        {
+          "type": "richtext",
+          "id": "copy",
+          "label": "Descripción"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_progress",
+          "label": "Mostrar barra de progreso",
+          "default": false
+        },
+        {
+          "type": "range",
+          "id": "progress_active",
+          "label": "Segmentos activos",
+          "min": 1,
+          "max": 3,
+          "step": 1,
+          "default": 1
+        },
+        {
+          "type": "text",
+          "id": "progress_label",
+          "label": "Etiqueta accesible de progreso",
+          "default": "Estado del drop"
+        },
+        {
+          "type": "image_picker",
+          "id": "corner_image",
+          "label": "Textura de esquina"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "24/SIE7E features",
+      "blocks": [
+        {
+          "type": "feature",
+          "settings": {
+            "card_style": "light",
+            "heading": "MAQUINARIA INDUSTRIAL",
+            "copy": "<p>Costuras reforzadas con hilos de alta densidad diseñados para durar décadas.</p>"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "card_style": "dark",
+            "heading": "DROP 004",
+            "copy": "<p>Disponible hasta agotar existencias físicas. Sin reposiciones programadas.</p>",
+            "show_progress": true,
+            "progress_active": 1
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

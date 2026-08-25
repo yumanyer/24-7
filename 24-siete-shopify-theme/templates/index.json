@@ -1,1 +1,145 @@
-{"sections":{"featured_collection_P9AGLc":{"type":"featured-collection","name":"t:sections.featured-collection.presets.name","settings":{"title":"Featured collection","heading_size":"h1","description":"","show_description":false,"description_style":"body","color_scheme":"background-1","collection":"frontpage","products_to_show":4,"columns_desktop":4,"product_cards_stretch":false,"full_width":false,"show_view_all":true,"view_all_style":"solid","enable_desktop_slider":false,"cards_color_scheme":"background-1","image_ratio":"adapt","show_secondary_image":false,"show_vendor":false,"show_rating":false,"enable_quick_add":false,"columns_mobile":"2","swipe_on_mobile":false,"padding_top":36,"padding_bottom":36,"custom_colors_background":"#ffffff","custom_gradient_background":"","custom_colors_text":"#2e2a39","custom_colors_solid_button_background":"#dd1d1d","custom_colors_solid_button_text":"#ffffff"}},"contact_form_Exj8J9":{"type":"contact-form","name":"t:sections.contact-form.presets.name","settings":{"heading":"Contact form","heading_size":"h1","button_full_width":true,"color_scheme":"background-1","padding_top":36,"padding_bottom":36,"custom_colors_background":"#ffffff","custom_gradient_background":"","custom_colors_text":"#2e2a39","custom_colors_solid_button_background":"#dd1d1d","custom_colors_solid_button_text":"#ffffff"}}},"order":["featured_collection_P9AGLc","contact_form_Exj8J9"]}
+{
+  "sections": {
+    "24sie7e_home_hero": {
+      "type": "24sie7e-home-hero",
+      "name": "24/SIE7E hero",
+      "settings": {
+        "hero_height": 860,
+        "mobile_hero_height": 680,
+        "pill": "DROP LIMITADO",
+        "heading": "PRENDAS\nINTERVENIDAS",
+        "copy": "<p>Nuestra serie industrial fusiona procesos químicos con siluetas sobredimensionadas. Cada pieza es única, numerada y producida bajo demanda.</p>",
+        "primary_label": "VER COLECCIÓN",
+        "primary_link": "/collections/all",
+        "secondary_label": "ARCHIVO 24/7",
+        "secondary_link": "#archive",
+        "show_scroll_hint": true,
+        "scroll_label": "EXPLORAR MATERIAL"
+      }
+    },
+    "24sie7e_home_inventory": {
+      "type": "24sie7e-home-inventory",
+      "name": "24/SIE7E inventory",
+      "settings": {
+        "heading": "CURRENT INVENTORY",
+        "description": "<p>Series de producción limitada. Una vez agotadas, el diseño entra en el archivo permanente y no vuelve a circular.</p>",
+        "collection": "frontpage",
+        "products_to_show": 3,
+        "show_filters": true,
+        "filters_label": "Categorías de producto"
+      },
+      "blocks": {
+        "filter_buzos": {
+          "type": "filter",
+          "settings": {
+            "label": "BUZOS"
+          }
+        },
+        "filter_remeras": {
+          "type": "filter",
+          "settings": {
+            "label": "REMERAS"
+          }
+        },
+        "filter_accesorios": {
+          "type": "filter",
+          "settings": {
+            "label": "ACCESORIOS"
+          }
+        }
+      },
+      "block_order": [
+        "filter_buzos",
+        "filter_remeras",
+        "filter_accesorios"
+      ]
+    },
+    "24sie7e_home_features": {
+      "type": "24sie7e-home-features",
+      "name": "24/SIE7E features",
+      "settings": {
+        "primary_heading": "FILOSOFÍA BRUTALISTA",
+        "primary_copy": "<p>Nuestras prendas no buscan la perfección estética tradicional, sino la honestidad del material y la fuerza de la estructura.</p>",
+        "primary_link_label": "VER MANIFIESTO",
+        "primary_link": "#manifesto"
+      },
+      "blocks": {
+        "feature_machinery": {
+          "type": "feature",
+          "settings": {
+            "card_style": "light",
+            "heading": "MAQUINARIA INDUSTRIAL",
+            "copy": "<p>Costuras reforzadas con hilos de alta densidad diseñados para durar décadas.</p>"
+          }
+        },
+        "feature_drop": {
+          "type": "feature",
+          "settings": {
+            "card_style": "dark",
+            "heading": "DROP 004",
+            "copy": "<p>Disponible hasta agotar existencias físicas. Sin reposiciones programadas.</p>",
+            "show_progress": true,
+            "progress_active": 1,
+            "progress_label": "Estado del drop"
+          }
+        }
+      },
+      "block_order": [
+        "feature_machinery",
+        "feature_drop"
+      ]
+    },
+    "24sie7e_home_specs": {
+      "type": "24sie7e-home-spec-banner",
+      "name": "24/SIE7E specifications",
+      "settings": {
+        "accessibility_label": "Especificaciones de producto"
+      },
+      "blocks": {
+        "spec_cotton": {
+          "type": "spec",
+          "settings": {
+            "label": "COTTON 400GSM"
+          }
+        },
+        "spec_nylon": {
+          "type": "spec",
+          "settings": {
+            "label": "NYLON REFORZADO"
+          }
+        },
+        "spec_steel": {
+          "type": "spec",
+          "settings": {
+            "label": "ACERO QUIRÚRGICO"
+          }
+        },
+        "spec_numbered": {
+          "type": "spec",
+          "settings": {
+            "label": "EDICIÓN NUMERADA"
+          }
+        },
+        "spec_argentina": {
+          "type": "spec",
+          "settings": {
+            "label": "HECHO EN ARGENTINA"
+          }
+        }
+      },
+      "block_order": [
+        "spec_cotton",
+        "spec_nylon",
+        "spec_steel",
+        "spec_numbered",
+        "spec_argentina"
+      ]
+    }
+  },
+  "order": [
+    "24sie7e_home_hero",
+    "24sie7e_home_inventory",
+    "24sie7e_home_features",
+    "24sie7e_home_specs"
+  ]
+}

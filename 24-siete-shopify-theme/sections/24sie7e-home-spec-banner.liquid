@@ -1,0 +1,54 @@
+<section id="archive" class="sie7e24-home sie7e24-home-specs">
+  <div class="sie7e24-home__inner">
+    <div class="sie7e24-home-specs__list" role="list" aria-label="{{ section.settings.accessibility_label | escape }}">
+      {%- for block in section.blocks -%}
+        {%- if block.settings.label != blank -%}
+          <span class="sie7e24-home-specs__item" role="listitem" {{ block.shopify_attributes }}>{{ block.settings.label | escape }}</span>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "24/SIE7E specifications",
+  "tag": "section",
+  "class": "section-sie7e24-home-specs",
+  "settings": [
+    {
+      "type": "text",
+      "id": "accessibility_label",
+      "label": "Etiqueta accesible",
+      "default": "Especificaciones de producto"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "spec",
+      "name": "Especificación",
+      "limit": 5,
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Texto",
+          "default": "COTTON 400GSM"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "24/SIE7E specifications",
+      "blocks": [
+        { "type": "spec", "settings": { "label": "COTTON 400GSM" } },
+        { "type": "spec", "settings": { "label": "NYLON REFORZADO" } },
+        { "type": "spec", "settings": { "label": "ACERO QUIRÚRGICO" } },
+        { "type": "spec", "settings": { "label": "EDICIÓN NUMERADA" } },
+        { "type": "spec", "settings": { "label": "HECHO EN ARGENTINA" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,45 @@
+{%- liquid
+  assign material = card_product.metafields.custom.material.value
+  assign badge = card_product.metafields.custom.badge.value
+  if material == blank
+    assign material = card_product.type
+  endif
+  assign product_alt = card_product.featured_media.alt | default: card_product.title | escape
+  if badge == blank
+    if card_product.available == false
+      assign badge = 'AGOTADO'
+    elsif card_product.compare_at_price > card_product.price
+      assign badge = 'DROP LIMITADO'
+    else
+      assign badge = 'IN STOCK'
+    endif
+  endif
+-%}
+
+<a class="sie7e24-home-product-card" href="{{ card_product.url }}" aria-label="{{ card_product.title | escape }}">
+  <div class="sie7e24-home-product-card__figure">
+    {%- if card_product.featured_media != blank -%}
+      {{
+        card_product.featured_media
+        | image_url: width: 1200
+        | image_tag:
+          loading: 'lazy',
+          widths: '360, 540, 720, 900, 1200',
+          sizes: '(min-width: 1200px) 30vw, 100vw',
+          alt: product_alt
+      }}
+    {%- else -%}
+      {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+    {%- endif -%}
+    <span class="sie7e24-home-product-card__badge">{{ badge | escape }}</span>
+  </div>
+  <div class="sie7e24-home-product-card__details">
+    <div>
+      <h3 class="sie7e24-home-product-card__title">{{ card_product.title | escape }}</h3>
+      {%- if material != blank -%}
+        <p class="sie7e24-home-product-card__material">{{ material | escape }}</p>
+      {%- endif -%}
+    </div>
+    <span class="sie7e24-home-product-card__price">{{ card_product.price | money }}</span>
+  </div>
+</a>
