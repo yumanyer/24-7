@@ -106,10 +106,15 @@ button {
 .hero-background {
   position: absolute;
   inset: 0;
-  background-image: url('https://www.figma.com/api/mcp/asset/1d7c865d-5faa-4f09-813f-f6a9e388f1b4.png');
-  background-size: cover;
-  background-position: center;
+  overflow: hidden;
   opacity: 0.3;
+}
+
+.hero-background video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
 }
 
 .hero-overlay {
