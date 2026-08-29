@@ -1,14 +1,22 @@
 {%- liquid
+  assign hero_video = section.settings.video
   assign hero_image = section.settings.image
   assign hero_mobile_image = section.settings.mobile_image
 -%}
 
 <section
+  id="collection"
   class="sie7e24-home sie7e24-home-hero"
   style="--24-hero-height: {{ section.settings.hero_height }}px; --24-hero-height-mobile: {{ section.settings.mobile_hero_height }}px;"
 >
   <div class="sie7e24-home-hero__media" aria-hidden="true">
-    {%- if hero_image != blank -%}
+    {%- if hero_video != blank -%}
+      <video class="sie7e24-home-hero__video" autoplay muted loop playsinline preload="metadata"{% if hero_video.preview_image != blank %} poster="{{ hero_video.preview_image | image_url: width: 2000 }}"{% endif %}>
+        {%- for source in hero_video.sources -%}
+          <source src="{{ source.url }}" type="{{ source.mime_type }}">
+        {%- endfor -%}
+      </video>
+    {%- elsif hero_image != blank -%}
       <img
         class="sie7e24-home-hero__image{% if hero_mobile_image != blank %} sie7e24-home-hero__image--desktop{% endif %}"
         srcset="
@@ -46,8 +54,10 @@
     {%- else -%}
       <div class="sie7e24-home-hero__placeholder"></div>
     {%- endif -%}
-  </div>
-  <div class="sie7e24-home-hero__grid" aria-hidden="true"></div>
+    </div>
+  <div class="sie7e24-home-hero__overlay" aria-hidden="true"></div>
+  <div class="sie7e24-home-hero__grid" aria-hidden="true">
+</div>
 
   <div class="sie7e24-home__inner">
     <div class="sie7e24-home-hero__content">
@@ -98,6 +108,12 @@
   "tag": "section",
   "class": "section-sie7e24-home-hero",
   "settings": [
+    {
+      "type": "video",
+      "id": "video",
+      "label": "Video de fondo del hero",
+      "info": "El video se reproduce automáticamente, sin sonido y en loop. Si queda vacío, se usa la imagen desktop."
+    },
     {
       "type": "image_picker",
       "id": "image",
