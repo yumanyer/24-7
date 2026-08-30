@@ -1,0 +1,140 @@
+<section class="feature-section">
+  <div class="feature-grid">
+    <div class="feature-large">
+      <div class="feature-figure">
+        {% if section.settings.background_image != blank %}
+          <img src="{{ section.settings.background_image | image_url: width: 1200 }}" alt="{{ section.settings.image_alt }}" />
+        {% else %}
+          <img src="{{ 'feature-bg.jpg' | asset_url }}" alt="The process" />
+        {% endif %}
+      </div>
+      <div class="feature-copy">
+        <div>
+          <h2>{{ section.settings.headline }}</h2>
+          <p>{{ section.settings.description }}</p>
+        </div>
+        <a href="{{ section.settings.link_url }}" class="feature-link">{{ section.settings.link_text }}</a>
+      </div>
+    </div>
+
+    <div class="feature-secondary">
+      <div class="secondary-card card-large">
+        {% if section.settings.accent_icon != blank %}
+          <img class="accent-icon" src="{{ section.settings.accent_icon | image_url }}" alt="{{ section.settings.accent_icon_alt }}" />
+        {% endif %}
+        <div>
+          <h3>{{ section.settings.card1_title }}</h3>
+          <p>{{ section.settings.card1_text }}</p>
+        </div>
+      </div>
+
+      <div class="secondary-card card-dark">
+        <div>
+          <h3>{{ section.settings.card2_title }}</h3>
+          <p>{{ section.settings.card2_text }}</p>
+        </div>
+        <div class="progress-bar">
+          <span></span><span></span><span></span>
+        </div>
+        {% if section.settings.corner_icon != blank %}
+          <img class="corner-icon" src="{{ section.settings.corner_icon | image_url }}" alt="{{ section.settings.corner_icon_alt }}" />
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Vanilla Features",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "headline",
+      "label": "Main Headline",
+      "default": "FILOSOFÍA BRUTALISTA"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Nuestras prendas no buscan la perfección estética tradicional, sino la honestidad del material y la fuerza de la estructura."
+    },
+    {
+      "type": "text",
+      "id": "link_text",
+      "label": "Link Text",
+      "default": "VER MANIFIESTO"
+    },
+    {
+      "type": "text",
+      "id": "link_url",
+      "label": "Link URL",
+      "default": "#manifesto"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background Image"
+    },
+    {
+      "type": "text",
+      "id": "image_alt",
+      "label": "Image Alt Text",
+      "default": "The process"
+    },
+    {
+      "type": "text",
+      "id": "card1_title",
+      "label": "Card 1 Title",
+      "default": "MAQUINARIA INDUSTRIAL"
+    },
+    {
+      "type": "textarea",
+      "id": "card1_text",
+      "label": "Card 1 Text",
+      "default": "Costuras reforzadas con hilos de alta densidad diseñados para durar décadas."
+    },
+    {
+      "type": "image_picker",
+      "id": "accent_icon",
+      "label": "Accent Icon"
+    },
+    {
+      "type": "text",
+      "id": "accent_icon_alt",
+      "label": "Accent Icon Alt",
+      "default": "Decorative line"
+    },
+    {
+      "type": "text",
+      "id": "card2_title",
+      "label": "Card 2 Title",
+      "default": "DROP 004"
+    },
+    {
+      "type": "textarea",
+      "id": "card2_text",
+      "label": "Card 2 Text",
+      "default": "Disponible hasta agotar existencias físicas. Sin reposiciones programadas."
+    },
+    {
+      "type": "image_picker",
+      "id": "corner_icon",
+      "label": "Corner Icon"
+    },
+    {
+      "type": "text",
+      "id": "corner_icon_alt",
+      "label": "Corner Icon Alt",
+      "default": "Corner texture"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Vanilla Features"
+    }
+  ]
+}
+{% endschema %}

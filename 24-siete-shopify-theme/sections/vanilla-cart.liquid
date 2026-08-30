@@ -1,0 +1,188 @@
+<div class="checkout-shell">
+  <main class="checkout-main">
+    <section class="checkout-heading">
+      <h1>{{ 'cart.general.title' | t }}</h1>
+      <p>{{ section.settings.subtitle }}</p>
+    </section>
+
+    <div class="checkout-grid">
+      <section class="checkout-form">
+        <article class="checkout-section">
+          <div class="section-label">
+            <span>01</span>
+            <h2>{{ 'cart.checkout.shipping' | t }}</h2>
+          </div>
+
+          <div class="shipping-grid">
+            <label class="field-group">
+              <span>{{ 'cart.checkout.full_name' | t }}</span>
+              <input type="text" class="field" placeholder="EJ. ALEX KROSS" name="checkout[shipping_address][first_name]" required>
+            </label>
+            <label class="field-group">
+              <span>{{ 'cart.checkout.phone' | t }}</span>
+              <input type="tel" class="field" placeholder="+54 911 0000 0000" name="checkout[shipping_address][phone]" required>
+            </label>
+            <label class="field-group full-width">
+              <span>{{ 'cart.checkout.address' | t }}</span>
+              <input type="text" class="field" placeholder="CALLE, NÚMERO, DPTO" name="checkout[shipping_address][address1]" required>
+            </label>
+            <label class="field-group">
+              <span>{{ 'cart.checkout.city' | t }}</span>
+              <input type="text" class="field" placeholder="BUENOS AIRES" name="checkout[shipping_address][city]" required>
+            </label>
+            <label class="field-group">
+              <span>{{ 'cart.checkout.zip' | t }}</span>
+              <input type="text" class="field" placeholder="C1425" name="checkout[shipping_address][zip]" required>
+            </label>
+          </div>
+        </article>
+
+        <article class="checkout-section">
+          <div class="section-label">
+            <span>02</span>
+            <h2>{{ 'cart.checkout.payment' | t }}</h2>
+          </div>
+
+          <div class="payment-grid">
+            <button class="payment-option selected" type="button" data-method="mercado">
+              <div class="payment-title">MERCADO PAGO</div>
+              <div class="payment-detail">
+                <svg class="info-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path d="M1 4v16a2 2 0 0 0 2 2h18a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H3a2 2 0 0 0-2 2z"/>
+                  <line x1="1" y1="10" x2="23" y2="10"/>
+                  <line x1="7" y1="14" x2="17" y2="14"/>
+                </svg>
+                <span>TODAS LAS TARJETAS / CUOTAS</span>
+              </div>
+            </button>
+            <button class="payment-option" type="button" data-method="transferencia">
+              <div class="payment-title">TRANSFERENCIA / WHATSAPP</div>
+              <div class="payment-detail">
+                <svg class="info-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/>
+                </svg>
+                <span>15% OFF PAGO DIRECTO</span>
+              </div>
+            </button>
+          </div>
+        </article>
+      </section>
+
+      <aside class="checkout-summary">
+        <div class="summary-heading">{{ 'cart.general.summary' | t }}</div>
+        <div class="summary-items" id="summaryItems">
+          {% for item in cart.items %}
+            <div class="summary-item">
+              <div class="summary-item-media">
+                {% if item.image %}
+                  <img src="{{ item.image | image_url: width: 96 }}" alt="{{ item.title }}">
+                {% else %}
+                  <img src="{{ 'product-placeholder.svg' | asset_url }}" alt="{{ item.title }}">
+                {% endif %}
+              </div>
+              <div class="summary-item-info">
+                <div class="summary-item-title">{{ item.title }}</div>
+                <div class="summary-item-meta">{{ 'cart.general.size' | t }}: {{ item.variant.title }}</div>
+              </div>
+              <div class="summary-item-price">{{ item.final_line_price | money }}</div>
+            </div>
+          {% else %}
+            <div class="summary-empty">
+              <p>{{ 'cart.general.empty' | t }}</p>
+              <a href="{{ routes.collections_url }}" class="summary-empty-link">{{ 'cart.general.continue_shopping' | t }} →</a>
+            </div>
+          {% endfor %}
+        </div>
+
+        <div class="summary-breakline"></div>
+
+        <div class="summary-totals">
+          <div class="summary-row">
+            <span>{{ 'cart.general.subtotal' | t }}</span>
+            <strong class="js-subtotal">{{ cart.total_price | money }}</strong>
+          </div>
+          <div class="summary-row">
+            <span>{{ 'cart.general.shipping' | t }}</span>
+            <strong>{{ 'cart.general.free' | t }}</strong>
+          </div>
+          <div class="summary-row total-row">
+            <span>{{ 'cart.general.total' | t }}</span>
+            <strong class="js-total">{{ cart.total_price | money }}</strong>
+          </div>
+        </div>
+
+        <button class="checkout-button" type="button" id="finalizeBtn">{{ 'cart.general.checkout' | t }}</button>
+
+        <div class="security-note">
+          <svg class="info-icon" width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+          <span>{{ section.settings.security_text }}</span>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <footer class="checkout-footer">
+    <div>
+      <div class="footer-brand">{{ shop.name }}</div>
+      <div class="footer-copy">&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}</div>
+    </div>
+    <div class="footer-links">
+      <a href="#">{{ 'general.footer.terms' | t }}</a>
+      <a href="#">{{ 'general.footer.shipping' | t }}</a>
+      <a href="{{ routes.contact_url }}">{{ 'general.footer.contact' | t }}</a>
+      <a href="{{ routes.root_url }}#archive">{{ 'general.footer.archive' | t }}</a>
+    </div>
+  </footer>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const paymentButtons = document.querySelectorAll('.payment-option');
+  paymentButtons.forEach((button) => {
+    button.addEventListener('click', function () {
+      paymentButtons.forEach((item) => item.classList.remove('selected'));
+      this.classList.add('selected');
+    });
+  });
+
+  const finalizeBtn = document.getElementById('finalizeBtn');
+  if (finalizeBtn) {
+    finalizeBtn.addEventListener('click', function () {
+      if ({{ cart.items.size }} === 0) return;
+      finalizeBtn.textContent = '✓ COMPRA REALIZADA';
+      finalizeBtn.disabled = true;
+      setTimeout(() => {
+        window.location.href = '{{ routes.checkout_url }}';
+      }, 1500);
+    });
+  }
+});
+</script>
+
+{% schema %}
+{
+  "name": "Vanilla Cart",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "SECURE INDUSTRIAL GATEWAY V2.4"
+    },
+    {
+      "type": "text",
+      "id": "security_text",
+      "label": "Security Text",
+      "default": "TRANSMISIÓN ENCRIPTADA 256-BIT"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Vanilla Cart"
+    }
+  ]
+}
+{% endschema %}

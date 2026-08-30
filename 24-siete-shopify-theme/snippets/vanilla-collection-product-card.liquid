@@ -1,0 +1,110 @@
+{% comment %}
+  Vanilla Collection Product Card
+  Matches the Vanilla HTML structure exactly:
+  - catalogue-image with img and tag (S/N)
+  - catalogue-meta with title, category/color, price
+  - catalogue-sizes with variant options
+{% endcomment %}
+
+{%- liquid
+  assign card_product = card_product | default: product
+  assign show_sn = show_sn | default: true
+  assign sn_metafield = sn_metafield | default: 'custom.serial_number'
+-%}
+
+<div class="catalogue-card-wrapper">
+  <a class="catalogue-card" href="{{ card_product.url }}">
+    <div class="catalogue-image">
+      {%- if card_product.featured_image -%}
+        <img
+          src="{{ card_product.featured_image | image_url: width: 800 }}"
+          alt="{{ card_product.featured_image.alt | escape }}"
+          loading="lazy"
+          width="{{ card_product.featured_image.width }}"
+          height="{{ card_product.featured_image.height }}"
+        >
+      {%- else -%}
+        <img
+          src="{{ 'product-placeholder.svg' | asset_url }}"
+          alt="{{ card_product.title }}"
+          loading="lazy"
+        >
+      {%- endif -%}
+      
+      {%- if show_sn -%}
+        {%- liquid
+          assign sn_value = card_product.metafields[sn_metafield] | default: card_product.handle
+        -%}
+        <span class="tag">S/N: {{ sn_value }}</span>
+      {%- endif -%}
+    </div>
+
+    <div class="catalogue-meta">
+      <div>
+        <h2>{{ card_product.title | escape }}</h2>
+        {%- liquid
+          assign category = card_product.type | default: ''
+          assign color = ''
+          for option in card_product.options_with_values
+            if option.name == 'Color' or option.name == 'Colour'
+              assign color = option.values.first
+            endif
+          endfor
+          if color == '' and card_product.variants.first.option2 != blank
+            assign color = card_product.variants.first.option2
+          endif
+          if color == '' and card_product.variants.first.option3 != blank
+            assign color = card_product.variants.first.option3
+          endif
+        -%}
+        <p>
+          {%- if category != blank -%}{{ category }}{%- else -%}—{%- endif -%}
+          {%- if color != blank -%} / {{ color }}{%- endif -%}
+        </p>
+      </div>
+      <span class="price">{{ card_product.price | money }}</span>
+    </div>
+
+    <div class="catalogue-sizes{% if card_product.variants.size == 1 and card_product.variants.first.title == 'Default Title' %} catalogue-size-full{% endif %}">
+      {%- if card_product.variants.size == 1 and card_product.variants.first.title == 'Default Title' -%}
+        <span class="catalogue-size-full">ONE SIZE</span>
+      {%- else -%}
+        {%- for variant in card_product.variants -%}
+          {%- if variant.available -%}
+            {%- liquid
+              assign size_value = ''
+              if variant.option1 != 'Default Title'
+                assign size_value = variant.option1
+              elsif variant.option2 != blank
+                assign size_value = variant.option2
+              elsif variant.option3 != blank
+                assign size_value = variant.option3
+              endif
+            -%}
+            {%- if size_value != '' -%}
+              <span>{{ size_value }}</span>
+            {%- endif -%}
+          {%- endif -%}
+        {%- endfor -%}
+        {%- comment -%} If no sizes found from variants, fallback to first 3 variant titles {%- endcomment -%}
+        {%- if card_product.variants.size > 0 -%}
+          {%- liquid
+            assign has_sizes = false
+            for variant in card_product.variants
+              if variant.option1 != 'Default Title' or variant.option2 != blank or variant.option3 != blank
+                assign has_sizes = true
+              endif
+            endfor
+            unless has_sizes
+              for variant in card_product.variants limit: 3
+                if variant.available
+                  echo '<span>' | append: variant.title | append: '</span>'
+                endif
+              endfor
+            endunless
+          -%}
+        {%- endif -%}
+      {%- endif -%}
+    </div>
+  </a>
+</div>

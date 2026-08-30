@@ -1,0 +1,130 @@
+<section class="inventory-section" id="products">
+  <div class="inventory-header">
+    <div>
+      <h2>{{ section.settings.title }}</h2>
+      <p>{{ section.settings.subtitle }}</p>
+    </div>
+    <div class="inventory-filters" role="tablist" aria-label="{{ section.settings.filter_label }}">
+      <button class="filter {% if forloop.first %}active{% endif %}" type="button" data-filter="all">{{ section.settings.filter_all }}</button>
+      <button class="filter" type="button" data-filter="buzos">{{ section.settings.filter_buzos }}</button>
+      <button class="filter" type="button" data-filter="remeras">{{ section.settings.filter_remeras }}</button>
+      <button class="filter" type="button" data-filter="accesorios">{{ section.settings.filter_accesorios }}</button>
+    </div>
+  </div>
+
+  <div class="products-grid">
+    {% for product in collections[section.settings.collection].products limit: section.settings.products_limit %}
+      <a class="product-card" href="{{ product.url }}">
+        <div class="product-figure">
+          {% if product.featured_image %}
+            <img src="{{ product.featured_image | image_url: width: 800 }}" alt="{{ product.featured_image.alt | escape }}" loading="lazy" />
+          {% else %}
+            <img src="{{ 'product-placeholder.svg' | asset_url }}" alt="{{ product.title }}" />
+          {% endif %}
+          {% if product.compare_at_price > product.price %}
+            <span class="product-badge">{{ section.settings.badge_text }}</span>
+          {% endif %}
+        </div>
+        <div class="product-details">
+          <div>
+            <h3>{{ product.title }}</h3>
+            <p>{{ product.type }}</p>
+          </div>
+          <span>{{ product.price | money }}</span>
+        </div>
+      </a>
+    {% else %}
+      <div class="product-card">
+        <p>No products found in this collection.</p>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const buttons = document.querySelectorAll('.inventory-filters .filter');
+  buttons.forEach((button) => {
+    button.addEventListener('click', function () {
+      buttons.forEach((item) => item.classList.remove('active'));
+      this.classList.add('active');
+    });
+  });
+});
+</script>
+
+{% schema %}
+{
+  "name": "Vanilla Inventory",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "CURRENT INVENTORY"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Series de producción limitada. Una vez agotadas, el diseño entra en el archivo permanente y no vuelve a circular."
+    },
+    {
+      "type": "text",
+      "id": "filter_label",
+      "label": "Filter Label",
+      "default": "Categorías"
+    },
+    {
+      "type": "text",
+      "id": "filter_all",
+      "label": "Filter All Text",
+      "default": "BUZOS"
+    },
+    {
+      "type": "text",
+      "id": "filter_buzos",
+      "label": "Filter Buzos Text",
+      "default": "REMERAS"
+    },
+    {
+      "type": "text",
+      "id": "filter_remeras",
+      "label": "Filter Remeras Text",
+      "default": "ACCESORIOS"
+    },
+    {
+      "type": "text",
+      "id": "filter_accesorios",
+      "label": "Filter Accesorios Text",
+      "default": "ALL"
+    },
+    {
+      "type": "text",
+      "id": "badge_text",
+      "label": "Badge Text",
+      "default": "IN STOCK"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "products_limit",
+      "label": "Products Limit",
+      "min": 1,
+      "max": 12,
+      "step": 1,
+      "default": 6
+    }
+  ],
+  "presets": [
+    {
+      "name": "Vanilla Inventory"
+    }
+  ]
+}
+{% endschema %}

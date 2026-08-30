@@ -1,0 +1,108 @@
+<section class="hero-section" id="collection">
+  <div class="hero-background">
+    {% if section.settings.video != blank %}
+      <video autoplay muted loop playsinline>
+        <source src="{{ section.settings.video | file_url }}" type="video/mp4">
+      </video>
+    {% else %}
+      <video autoplay muted loop playsinline>
+        <source src="{{ 'video.mp4' | asset_url }}" type="video/mp4">
+      </video>
+    {% endif %}
+  </div>
+
+  <div class="hero-overlay"></div>
+
+  <div class="hero-copy">
+    <div class="hero-pill">{{ section.settings.badge_text }}</div>
+
+    <h1>
+      {{ section.settings.headline | newline_to_br }}
+    </h1>
+
+    <p>
+      {{ section.settings.subtext }}
+    </p>
+
+    <div class="hero-actions">
+      <a href="{{ section.settings.primary_button_link }}" class="btn btn-primary">
+        {{ section.settings.primary_button_text }}
+      </a>
+      <a href="{{ section.settings.secondary_button_link }}" class="btn btn-secondary">
+        {{ section.settings.secondary_button_text }}
+      </a>
+    </div>
+  </div>
+
+  <div class="hero-scroll" id="hero-scroll">
+    <span>{{ section.settings.scroll_text }}</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Vanilla Hero",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "badge_text",
+      "label": "Badge Text",
+      "default": "DROP LIMITADO"
+    },
+    {
+      "type": "textarea",
+      "id": "headline",
+      "label": "Headline",
+      "default": "PRENDAS\nINTERVENIDAS"
+    },
+    {
+      "type": "textarea",
+      "id": "subtext",
+      "label": "Subtext",
+      "default": "Nuestra serie industrial fusiona procesos químicos con siluetas sobredimensionadas. Cada pieza es única, numerada y producida bajo demanda."
+    },
+    {
+      "type": "text",
+      "id": "primary_button_text",
+      "label": "Primary Button Text",
+      "default": "VER COLECCIÓN"
+    },
+    {
+      "type": "text",
+      "id": "primary_button_link",
+      "label": "Primary Button Link",
+      "default": "/collections/all"
+    },
+    {
+      "type": "text",
+      "id": "secondary_button_text",
+      "label": "Secondary Button Text",
+      "default": "ARCHIVO 24/7"
+    },
+    {
+      "type": "text",
+      "id": "secondary_button_link",
+      "label": "Secondary Button Link",
+      "default": "#archive"
+    },
+    {
+      "type": "text",
+      "id": "scroll_text",
+      "label": "Scroll Text",
+      "default": "EXPLORAR MATERIAL"
+    },
+    {
+      "type": "video",
+      "id": "video",
+      "label": "Background Video"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Vanilla Hero"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,351 @@
+<div class="contact-shell">
+  <main class="contact-main">
+    <section class="hero">
+      <div class="hero-copy">
+        <span class="hero-tag">{{ section.settings.hero_tag }}</span>
+        <h1>{{ section.settings.hero_title | newline_to_br }}</h1>
+      </div>
+      <div class="hero-caption">
+        <p>{{ section.settings.hero_caption }}</p>
+      </div>
+    </section>
+
+    <section class="support-cards">
+      <article class="support-card">
+        <div class="card-icon">🚚</div>
+        <div class="card-title">{{ section.settings.card1_title }}</div>
+        <p>{{ section.settings.card1_text }}</p>
+        <div class="card-footer">
+          <span>{{ section.settings.card1_dept }}</span>
+          <a href="#">{{ section.settings.card1_link }}</a>
+        </div>
+      </article>
+      <article class="support-card">
+        <div class="card-icon">🖥️</div>
+        <div class="card-title">{{ section.settings.card2_title }}</div>
+        <p>{{ section.settings.card2_text }}</p>
+        <div class="card-footer">
+          <span>{{ section.settings.card2_dept }}</span>
+          <a href="#">{{ section.settings.card2_link }}</a>
+        </div>
+      </article>
+      <article class="support-card">
+        <div class="card-icon">🛡️</div>
+        <div class="card-title">{{ section.settings.card3_title }}</div>
+        <p>{{ section.settings.card3_text }}</p>
+        <div class="card-footer">
+          <span>{{ section.settings.card3_dept }}</span>
+          <a href="#">{{ section.settings.card3_link }}</a>
+        </div>
+      </article>
+    </section>
+
+    <section class="info-grid">
+      <div class="network-panel">
+        <div class="panel-title">{{ section.settings.network_title }}</div>
+        <div class="network-link">
+          <span class="network-label">{{ section.settings.network1_label }}</span>
+          <span class="network-value">{{ section.settings.network1_value }}</span>
+          <span class="network-action">→</span>
+        </div>
+        <div class="network-link">
+          <span class="network-label">{{ section.settings.network2_label }}</span>
+          <span class="network-value">{{ section.settings.network2_value }}</span>
+          <span class="network-action">→</span>
+        </div>
+        <div class="network-link">
+          <span class="network-label">{{ section.settings.network3_label }}</span>
+          <span class="network-value">{{ section.settings.network3_value }}</span>
+          <span class="network-action">→</span>
+        </div>
+        <p class="network-meta">{{ section.settings.network_meta }}</p>
+      </div>
+
+      <div class="hub-panel">
+        <div class="panel-title">{{ section.settings.hub_title }}</div>
+        <div class="hub-item">
+          <span class="hub-label">{{ section.settings.hub1_label }}</span>
+          <span class="hub-text">{{ section.settings.hub1_text }}</span>
+        </div>
+        <div class="hub-item">
+          <span class="hub-label">{{ section.settings.hub2_label }}</span>
+          <span class="hub-text">{{ section.settings.hub2_text }}</span>
+        </div>
+        <div class="hub-item">
+          <span class="hub-label">{{ section.settings.hub3_label }}</span>
+          <span class="hub-text">{{ section.settings.hub3_text }}</span>
+        </div>
+        <div class="hub-item">
+          <span class="hub-label">{{ section.settings.hub4_label }}</span>
+          <span class="hub-text">{{ section.settings.hub4_text }}</span>
+        </div>
+        <div class="hub-media">
+          <div class="media-label">{{ section.settings.media_label }}</div>
+          {% if section.settings.media_image != blank %}
+            <div class="media-image" style="background-image: url('{{ section.settings.media_image | image_url }}')"></div>
+          {% else %}
+            <div class="media-image"></div>
+          {% endif %}
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="contact-footer">
+    <div class="footer-brand">{{ shop.name }}</div>
+    <div class="footer-links">
+      <a href="{{ routes.root_url }}#manifesto">{{ section.settings.footer_link1 }}</a>
+      <a href="{{ routes.collections_url }}">{{ section.settings.footer_link2 }}</a>
+      <a href="#">{{ section.settings.footer_link3 }}</a>
+      <a href="#">{{ section.settings.footer_link4 }}</a>
+    </div>
+    <div class="footer-copy">{{ section.settings.footer_copy }}</div>
+  </footer>
+</div>
+
+{% schema %}
+{
+  "name": "Vanilla Contact",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "hero_tag",
+      "label": "Hero Tag",
+      "default": "ENCRYPTED_CHANNEL // SECURE_ACCESS"
+    },
+    {
+      "type": "textarea",
+      "id": "hero_title",
+      "label": "Hero Title",
+      "default": "SUPPORT\nPROTOCOL\nV2"
+    },
+    {
+      "type": "textarea",
+      "id": "hero_caption",
+      "label": "Hero Caption",
+      "default": "TECHNICAL ASSISTANCE AND OPERATIONAL GUIDANCE FOR THE 24/SIETE INDUSTRIAL COMPLEX ECOSYSTEM."
+    },
+    {
+      "type": "text",
+      "id": "card1_title",
+      "label": "Card 1 Title",
+      "default": "LOGISTICS_INQUIRY"
+    },
+    {
+      "type": "textarea",
+      "id": "card1_text",
+      "label": "Card 1 Text",
+      "default": "Track global shipments, manage cargo returns, or resolve distribution anomalies within the supply chain."
+    },
+    {
+      "type": "text",
+      "id": "card1_dept",
+      "label": "Card 1 Dept",
+      "default": "DEP_01"
+    },
+    {
+      "type": "text",
+      "id": "card1_link",
+      "label": "Card 1 Link Text",
+      "default": "ACCESS →"
+    },
+    {
+      "type": "text",
+      "id": "card2_title",
+      "label": "Card 2 Title",
+      "default": "TECHNICAL_SUPPORT"
+    },
+    {
+      "type": "textarea",
+      "id": "card2_text",
+      "label": "Card 2 Text",
+      "default": "Troubleshooting for digital interfaces, garment-tech integration, and hardware maintenance protocols."
+    },
+    {
+      "type": "text",
+      "id": "card2_dept",
+      "label": "Card 2 Dept",
+      "default": "DEP_02"
+    },
+    {
+      "type": "text",
+      "id": "card2_link",
+      "label": "Card 2 Link Text",
+      "default": "OPEN_TICKET →"
+    },
+    {
+      "type": "text",
+      "id": "card3_title",
+      "label": "Card 3 Title",
+      "default": "PRESS_INTEL"
+    },
+    {
+      "type": "textarea",
+      "id": "card3_text",
+      "label": "Card 3 Text",
+      "default": "Media inquiries, brand assets, and strategic communication requests for external operational reporting."
+    },
+    {
+      "type": "text",
+      "id": "card3_dept",
+      "label": "Card 3 Dept",
+      "default": "DEP_03"
+    },
+    {
+      "type": "text",
+      "id": "card3_link",
+      "label": "Card 3 Link Text",
+      "default": "REQUEST_INTEL →"
+    },
+    {
+      "type": "text",
+      "id": "network_title",
+      "label": "Network Title",
+      "default": "NETWORK_NODES"
+    },
+    {
+      "type": "text",
+      "id": "network1_label",
+      "label": "Network 1 Label",
+      "default": "INSTAGRAM"
+    },
+    {
+      "type": "text",
+      "id": "network1_value",
+      "label": "Network 1 Value",
+      "default": "@24SIETE_INDUSTRIAL"
+    },
+    {
+      "type": "text",
+      "id": "network2_label",
+      "label": "Network 2 Label",
+      "default": "DISCORD"
+    },
+    {
+      "type": "text",
+      "id": "network2_value",
+      "label": "Network 2 Value",
+      "default": "THE_COMPLEX_SERVER"
+    },
+    {
+      "type": "text",
+      "id": "network3_label",
+      "label": "Network 3 Label",
+      "default": "X / TWITTER"
+    },
+    {
+      "type": "text",
+      "id": "network3_value",
+      "label": "Network 3 Value",
+      "default": "@24SIETE_SYSTEM"
+    },
+    {
+      "type": "text",
+      "id": "network_meta",
+      "label": "Network Meta",
+      "default": "ENCRYPTED_SOCIAL_LAYER // ACTIVE_MONITORING_ENABLED"
+    },
+    {
+      "type": "text",
+      "id": "hub_title",
+      "label": "Hub Title",
+      "default": "THE_COMPLEX_HUB"
+    },
+    {
+      "type": "text",
+      "id": "hub1_label",
+      "label": "Hub 1 Label",
+      "default": "COORDINATES"
+    },
+    {
+      "type": "text",
+      "id": "hub1_text",
+      "label": "Hub 1 Text",
+      "default": "SECTOR AR, INDUSTRIAL_ZONE 01 BUENOS AIRES, ARGENTINA"
+    },
+    {
+      "type": "text",
+      "id": "hub2_label",
+      "label": "Hub 2 Label",
+      "default": "OPERATIONAL_WINDOW"
+    },
+    {
+      "type": "text",
+      "id": "hub2_text",
+      "label": "Hub 2 Text",
+      "default": "24 HOURS / 07 DAYS A WEEK"
+    },
+    {
+      "type": "text",
+      "id": "hub3_label",
+      "label": "Hub 3 Label",
+      "default": "DIRECT_COMM_CHANNEL"
+    },
+    {
+      "type": "text",
+      "id": "hub3_text",
+      "label": "Hub 3 Text",
+      "default": "+354 (OPERATIONS-724)"
+    },
+    {
+      "type": "text",
+      "id": "hub4_label",
+      "label": "Hub 4 Label",
+      "default": "LOCAL_CRAFTSMANSHIP"
+    },
+    {
+      "type": "text",
+      "id": "hub4_text",
+      "label": "Hub 4 Text",
+      "default": "HECHO EN ARGENTINA / HAND-FINISHED"
+    },
+    {
+      "type": "text",
+      "id": "media_label",
+      "label": "Media Label",
+      "default": "LIVE_SATELLITE_FEED"
+    },
+    {
+      "type": "image_picker",
+      "id": "media_image",
+      "label": "Media Image"
+    },
+    {
+      "type": "text",
+      "id": "footer_link1",
+      "label": "Footer Link 1",
+      "default": "MANIFESTO"
+    },
+    {
+      "type": "text",
+      "id": "footer_link2",
+      "label": "Footer Link 2",
+      "default": "LOGISTICS"
+    },
+    {
+      "type": "text",
+      "id": "footer_link3",
+      "label": "Footer Link 3",
+      "default": "TERMS OF SERVICE"
+    },
+    {
+      "type": "text",
+      "id": "footer_link4",
+      "label": "Footer Link 4",
+      "default": "PRIVACY POLICY"
+    },
+    {
+      "type": "text",
+      "id": "footer_copy",
+      "label": "Footer Copy",
+      "default": "© 24/SIETE INDUSTRIAL COMPLEX. ALL RIGHTS RESERVED."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Vanilla Contact"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,51 @@
+<section class="spec-banner" id="archive">
+  <div class="marquee-row">{{ section.settings.spec1 }}</div>
+  <div class="marquee-row">{{ section.settings.spec2 }}</div>
+  <div class="marquee-row">{{ section.settings.spec3 }}</div>
+  <div class="marquee-row">{{ section.settings.spec4 }}</div>
+  <div class="marquee-row">{{ section.settings.spec5 }}</div>
+</section>
+
+{% schema %}
+{
+  "name": "Vanilla Spec Banner",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "spec1",
+      "label": "Spec 1",
+      "default": "COTTON 400GSM"
+    },
+    {
+      "type": "text",
+      "id": "spec2",
+      "label": "Spec 2",
+      "default": "NYLON REFORZADO"
+    },
+    {
+      "type": "text",
+      "id": "spec3",
+      "label": "Spec 3",
+      "default": "ACERO QUIRÚRGICO"
+    },
+    {
+      "type": "text",
+      "id": "spec4",
+      "label": "Spec 4",
+      "default": "EDICIÓN NUMERADA"
+    },
+    {
+      "type": "text",
+      "id": "spec5",
+      "label": "Spec 5",
+      "default": "HECHO EN ARGENTINA"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Vanilla Spec Banner"
+    }
+  ]
+}
+{% endschema %}
