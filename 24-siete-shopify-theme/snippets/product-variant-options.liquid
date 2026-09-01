@@ -107,7 +107,7 @@ assign custom_colors_arr = block.settings.swatches_custom_colors_list | split: '
       render 'swatch-input',
       id: input_id,
       name: input_name,
-      value: value | escape,
+      value: value,
       swatch: value.swatch,
       product_form_id: product_form_id,
       checked: value.selected,
@@ -115,8 +115,8 @@ assign custom_colors_arr = block.settings.swatches_custom_colors_list | split: '
       shape: 'circle',
       help_text: help_text,
       additional_props: input_dataset,
-      block:block,
-      custom_color_swatch: custom_color_swatch
+      block: block,
+      custom_color_swatch: custom_color_swatch,
       swatch_type: swatch_type
     %}
   {%- elsif picker_type == 'button' -%}
