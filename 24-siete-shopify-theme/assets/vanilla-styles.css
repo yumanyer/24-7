@@ -150,6 +150,7 @@ button {
   line-height: 0.95;
   letter-spacing: -0.08em;
   text-transform: uppercase;
+  color: #c6c6c6 !important; 
 }
 
 .hero-copy p {
@@ -565,6 +566,7 @@ button {
 
   .hero-copy h1 {
     font-size: 4.5rem;
+    
   }
 }
 

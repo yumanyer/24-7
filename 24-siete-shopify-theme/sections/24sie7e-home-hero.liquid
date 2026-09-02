@@ -6,10 +6,10 @@
 
 <section
   id="collection"
-  class="sie7e24-home sie7e24-home-hero"
+  class="hero-section sie7e24-home sie7e24-home-hero"
   style="--24-hero-height: {{ section.settings.hero_height }}px; --24-hero-height-mobile: {{ section.settings.mobile_hero_height }}px;"
 >
-  <div class="sie7e24-home-hero__media" aria-hidden="true">
+  <div class="hero-background sie7e24-home-hero__media" aria-hidden="true">
     {%- if hero_video != blank -%}
       <video class="sie7e24-home-hero__video" autoplay muted loop playsinline preload="metadata"{% if hero_video.preview_image != blank %} poster="{{ hero_video.preview_image | image_url: width: 2000 }}"{% endif %}>
         {%- for source in hero_video.sources -%}
@@ -54,15 +54,14 @@
     {%- else -%}
       <div class="sie7e24-home-hero__placeholder"></div>
     {%- endif -%}
-    </div>
-  <div class="sie7e24-home-hero__overlay" aria-hidden="true"></div>
-  <div class="sie7e24-home-hero__grid" aria-hidden="true">
-</div>
+  </div>
+  <div class="hero-overlay sie7e24-home-hero__overlay" aria-hidden="true"></div>
+  <div class="sie7e24-home-hero__grid" aria-hidden="true"></div>
 
   <div class="sie7e24-home__inner">
-    <div class="sie7e24-home-hero__content">
+    <div class="hero-copy sie7e24-home-hero__content">
       {%- if section.settings.pill != blank -%}
-        <span class="sie7e24-home-hero__pill">{{ section.settings.pill | escape }}</span>
+        <span class="hero-pill sie7e24-home-hero__pill">{{ section.settings.pill | escape }}</span>
       {%- endif -%}
 
       {%- if section.settings.heading != blank -%}
@@ -73,10 +72,10 @@
         <div class="sie7e24-home-hero__copy rte">{{ section.settings.copy }}</div>
       {%- endif -%}
 
-      <div class="sie7e24-home-hero__actions">
+      <div class="hero-actions sie7e24-home-hero__actions">
         {%- if section.settings.primary_label != blank -%}
           <a
-            class="button button--primary"
+            class="btn btn-primary button button--primary"
             {% if section.settings.primary_link != blank %}href="{{ section.settings.primary_link }}"{% else %}role="link" aria-disabled="true"{% endif %}
           >
             {{ section.settings.primary_label | escape }}
@@ -84,7 +83,7 @@
         {%- endif -%}
         {%- if section.settings.secondary_label != blank -%}
           <a
-            class="button button--secondary"
+            class="btn btn-secondary button button--secondary"
             {% if section.settings.secondary_link != blank %}href="{{ section.settings.secondary_link }}"{% else %}role="link" aria-disabled="true"{% endif %}
           >
             {{ section.settings.secondary_label | escape }}
@@ -95,9 +94,9 @@
   </div>
 
   {%- if section.settings.show_scroll_hint -%}
-    <div class="sie7e24-home-hero__scroll" aria-hidden="true">
+    <div id="hero-scroll" class="hero-scroll sie7e24-home-hero__scroll" aria-hidden="true">
       <span>{{ section.settings.scroll_label | escape }}</span>
-      <span class="sie7e24-home-hero__scroll-line"></span>
+      <span class="scroll-line sie7e24-home-hero__scroll-line"></span>
     </div>
   {%- endif -%}
 </section>

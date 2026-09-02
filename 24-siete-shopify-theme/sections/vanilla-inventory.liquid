@@ -5,15 +5,14 @@
       <p>{{ section.settings.subtitle }}</p>
     </div>
     <div class="inventory-filters" role="tablist" aria-label="{{ section.settings.filter_label }}">
-      <button class="filter {% if forloop.first %}active{% endif %}" type="button" data-filter="all">{{ section.settings.filter_all }}</button>
-      <button class="filter" type="button" data-filter="buzos">{{ section.settings.filter_buzos }}</button>
-      <button class="filter" type="button" data-filter="remeras">{{ section.settings.filter_remeras }}</button>
-      <button class="filter" type="button" data-filter="accesorios">{{ section.settings.filter_accesorios }}</button>
+      <button class="filter active" type="button" data-filter="buzos">{{ section.settings.filter_all }}</button>
+      <button class="filter" type="button" data-filter="remeras">{{ section.settings.filter_buzos }}</button>
+      <button class="filter" type="button" data-filter="accesorios">{{ section.settings.filter_remeras }}</button>
     </div>
   </div>
 
   <div class="products-grid">
-    {% for product in collections[section.settings.collection].products limit: section.settings.products_limit %}
+    {% for product in section.settings.collection.products limit: section.settings.products_limit %}
       <a class="product-card" href="{{ product.url }}">
         <div class="product-figure">
           {% if product.featured_image %}
@@ -34,9 +33,45 @@
         </div>
       </a>
     {% else %}
-      <div class="product-card">
-        <p>No products found in this collection.</p>
-      </div>
+      {%- comment -%}
+        PRODUCTOS DEMO TEMPORALES.
+        Reemplazar este bloque por el loop de productos reales cuando la colección esté lista.
+      {%- endcomment -%}
+      <a class="product-card" href="/products/carbon-oversized-hoodie">
+        <div class="product-figure">
+          <img
+            src="{{ 'demo-carbon-hoodie.svg' | asset_url }}"
+            alt="Carbon oversized hoodie"
+            loading="lazy"
+          />
+          <span class="product-badge">IN STOCK</span>
+        </div>
+        <div class="product-details">
+          <div>
+            <h3>CARBON OVERSIZED HOODIE</h3>
+            <p>FABRIC: 450GSM FRENCH TERRY</p>
+          </div>
+          <span>$120.00</span>
+        </div>
+      </a>
+
+      <a class="product-card" href="/products/acid-wash-intervention-tee">
+        <div class="product-figure">
+          <img
+            src="{{ 'demo-acid-wash-tee.svg' | asset_url }}"
+            alt="Acid wash intervention tee"
+            loading="lazy"
+          />
+          <span class="product-badge">LIMITED 50/50</span>
+        </div>
+        <div class="product-details">
+          <div>
+            <h3>ACID WASH INTERVENTION TEE</h3>
+            <p>CHEMICAL TREATED: HANDMADE</p>
+          </div>
+          <span>$65.00</span>
+        </div>
+      </a>
     {% endfor %}
   </div>
 </section>

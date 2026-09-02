@@ -141,6 +141,15 @@
 }
 
 /* Hero */
+/* Compatibility with the vanilla homepage markup classes. */
+.sie7e24-home-hero.hero-section {
+  padding: 0;
+}
+
+.sie7e24-home-hero .hero-background {
+  opacity: 1;
+}
+
 .sie7e24-home-hero {
   position: relative;
   min-height: var(--24-hero-height, 86rem);

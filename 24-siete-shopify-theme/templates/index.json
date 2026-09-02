@@ -1,145 +1,72 @@
 {
   "sections": {
-    "24sie7e_home_hero": {
-      "type": "24sie7e-home-hero",
-      "name": "24/SIE7E hero",
+    "vanilla_hero": {
+      "type": "vanilla-hero",
+      "name": "Vanilla Hero",
       "settings": {
-        "hero_height": 860,
-        "mobile_hero_height": 680,
-        "pill": "DROP LIMITADO",
-        "heading": "PRENDAS\nINTERVENIDAS",
-        "copy": "<p>Nuestra serie industrial fusiona procesos químicos con siluetas sobredimensionadas. Cada pieza es única, numerada y producida bajo demanda.</p>",
-        "primary_label": "VER COLECCIÓN",
-        "primary_link": "/collections/all",
-        "secondary_label": "ARCHIVO 24/7",
-        "secondary_link": "#archive",
-        "show_scroll_hint": true,
-        "scroll_label": "EXPLORAR MATERIAL"
+        "badge_text": "DROP LIMITADO",
+        "headline": "PRENDAS\nINTERVENIDAS",
+        "subtext": "Nuestra serie industrial fusiona procesos químicos con siluetas sobredimensionadas. Cada pieza es única, numerada y producida bajo demanda.",
+        "primary_button_text": "VER COLECCIÓN",
+        "primary_button_link": "/collections/all",
+        "secondary_button_text": "ARCHIVO 24/7",
+        "secondary_button_link": "#archive",
+        "scroll_text": "EXPLORAR MATERIAL",
+        "video": ""
       }
     },
-    "24sie7e_home_inventory": {
-      "type": "24sie7e-home-inventory",
-      "name": "24/SIE7E inventory",
+    "vanilla_inventory": {
+      "type": "vanilla-inventory",
+      "name": "Vanilla Inventory",
       "settings": {
-        "heading": "CURRENT INVENTORY",
-        "description": "<p>Series de producción limitada. Una vez agotadas, el diseño entra en el archivo permanente y no vuelve a circular.</p>",
+        "title": "CURRENT INVENTORY",
+        "subtitle": "Series de producción limitada. Una vez agotadas, el diseño entra en el archivo permanente y no vuelve a circular.",
+        "filter_label": "Categorías",
+        "filter_all": "BUZOS",
+        "filter_buzos": "REMERAS",
+        "filter_remeras": "ACCESORIOS",
+        "filter_accesorios": "",
+        "badge_text": "IN STOCK",
         "collection": "frontpage",
-        "products_to_show": 3,
-        "show_filters": true,
-        "filters_label": "Categorías de producto"
-      },
-      "blocks": {
-        "filter_buzos": {
-          "type": "filter",
-          "settings": {
-            "label": "BUZOS"
-          }
-        },
-        "filter_remeras": {
-          "type": "filter",
-          "settings": {
-            "label": "REMERAS"
-          }
-        },
-        "filter_accesorios": {
-          "type": "filter",
-          "settings": {
-            "label": "ACCESORIOS"
-          }
-        }
-      },
-      "block_order": [
-        "filter_buzos",
-        "filter_remeras",
-        "filter_accesorios"
-      ]
+        "products_limit": 3
+      }
     },
-    "24sie7e_home_features": {
-      "type": "24sie7e-home-features",
-      "name": "24/SIE7E features",
+    "vanilla_features": {
+      "type": "vanilla-features",
+      "name": "Vanilla Features",
       "settings": {
-        "primary_heading": "FILOSOFÍA BRUTALISTA",
-        "primary_copy": "<p>Nuestras prendas no buscan la perfección estética tradicional, sino la honestidad del material y la fuerza de la estructura.</p>",
-        "primary_link_label": "VER MANIFIESTO",
-        "primary_link": "#manifesto"
-      },
-      "blocks": {
-        "feature_machinery": {
-          "type": "feature",
-          "settings": {
-            "card_style": "light",
-            "heading": "MAQUINARIA INDUSTRIAL",
-            "copy": "<p>Costuras reforzadas con hilos de alta densidad diseñados para durar décadas.</p>"
-          }
-        },
-        "feature_drop": {
-          "type": "feature",
-          "settings": {
-            "card_style": "dark",
-            "heading": "DROP 004",
-            "copy": "<p>Disponible hasta agotar existencias físicas. Sin reposiciones programadas.</p>",
-            "show_progress": true,
-            "progress_active": 1,
-            "progress_label": "Estado del drop"
-          }
-        }
-      },
-      "block_order": [
-        "feature_machinery",
-        "feature_drop"
-      ]
+        "headline": "FILOSOFÍA BRUTALISTA",
+        "description": "Nuestras prendas no buscan la perfección estética tradicional, sino la honestidad del material y la fuerza de la estructura.",
+        "link_text": "VER MANIFIESTO",
+        "link_url": "#manifesto",
+        "background_image": "",
+        "image_alt": "The process",
+        "card1_title": "MAQUINARIA INDUSTRIAL",
+        "card1_text": "Costuras reforzadas con hilos de alta densidad diseñados para durar décadas.",
+        "accent_icon": "",
+        "accent_icon_alt": "Decorative line",
+        "card2_title": "DROP 004",
+        "card2_text": "Disponible hasta agotar existencias físicas. Sin reposiciones programadas.",
+        "corner_icon": "",
+        "corner_icon_alt": "Corner texture"
+      }
     },
-    "24sie7e_home_specs": {
-      "type": "24sie7e-home-spec-banner",
-      "name": "24/SIE7E specifications",
+    "vanilla_specs": {
+      "type": "vanilla-spec-banner",
+      "name": "Vanilla Spec Banner",
       "settings": {
-        "accessibility_label": "Especificaciones de producto"
-      },
-      "blocks": {
-        "spec_cotton": {
-          "type": "spec",
-          "settings": {
-            "label": "COTTON 400GSM"
-          }
-        },
-        "spec_nylon": {
-          "type": "spec",
-          "settings": {
-            "label": "NYLON REFORZADO"
-          }
-        },
-        "spec_steel": {
-          "type": "spec",
-          "settings": {
-            "label": "ACERO QUIRÚRGICO"
-          }
-        },
-        "spec_numbered": {
-          "type": "spec",
-          "settings": {
-            "label": "EDICIÓN NUMERADA"
-          }
-        },
-        "spec_argentina": {
-          "type": "spec",
-          "settings": {
-            "label": "HECHO EN ARGENTINA"
-          }
-        }
-      },
-      "block_order": [
-        "spec_cotton",
-        "spec_nylon",
-        "spec_steel",
-        "spec_numbered",
-        "spec_argentina"
-      ]
+        "spec1": "COTTON 400GSM",
+        "spec2": "NYLON REFORZADO",
+        "spec3": "ACERO QUIRÚRGICO",
+        "spec4": "EDICIÓN NUMERADA",
+        "spec5": "HECHO EN ARGENTINA"
+      }
     }
   },
   "order": [
-    "24sie7e_home_hero",
-    "24sie7e_home_inventory",
-    "24sie7e_home_features",
-    "24sie7e_home_specs"
+    "vanilla_hero",
+    "vanilla_inventory",
+    "vanilla_features",
+    "vanilla_specs"
   ]
 }
