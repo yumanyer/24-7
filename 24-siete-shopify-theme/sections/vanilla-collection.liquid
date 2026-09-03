@@ -60,8 +60,8 @@
       </div>
     </section>
 
+    {%- paginate collection.products by section.settings.products_per_page -%}
     <section class="catalogue-grid" id="ProductGrid">
-      {%- paginate collection.products by section.settings.products_per_page -%}
         {%- if collection.products.size == 0 -%}
           <div class="catalogue-card">
             <p>{{ 'sections.collection_template.empty' | t }}</p>
@@ -71,35 +71,18 @@
             {% render 'vanilla-collection-product-card', card_product: product %}
           {%- endfor -%}
         {%- endif -%}
-      {%- endpaginate -%}
     </section>
 
     <section class="load-more-section">
-      {%- paginate collection.products by section.settings.products_per_page -%}
         {%- if paginate.next -%}
           <a class="load-more" href="{{ paginate.next.url }}">{{ section.settings.load_more_text }}</a>
         {%- else -%}
           <button class="load-more" disabled>{{ section.settings.load_more_text }}</button>
         {%- endif -%}
-      {%- endpaginate -%}
       <div class="divider"></div>
     </section>
+    {%- endpaginate -%}
   </main>
-
-  <footer class="collection-footer">
-    <div class="footer-links">
-      <span class="footer-title">{{ shop.name }}</span>
-      <div class="footer-nav">
-        <a href="{{ routes.policies_url }}#terms">{{ 'general.footer.terms' | t }}</a>
-        <a href="{{ routes.policies_url }}#shipping">{{ 'general.footer.shipping' | t }}</a>
-        <a href="{{ routes.contact_url }}">{{ 'general.footer.contact' | t }}</a>
-        <a href="{{ routes.root_url }}#archive">{{ 'general.footer.archive' | t }}</a>
-      </div>
-    </div>
-    <div class="footer-meta">
-      <span>&copy; {{ 'now' | date: '%Y' }} {{ shop.name }} INDUSTRIAL [SYSTEM_READY]</span>
-    </div>
-  </footer>
 </div>
 
 <script>
