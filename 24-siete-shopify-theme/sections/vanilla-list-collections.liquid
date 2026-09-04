@@ -1,0 +1,252 @@
+
+{{ 'vanilla-collection.css' | asset_url | stylesheet_tag }}
+
+<div class="page-shell">
+
+  <main class="collection-page">
+
+    {%- comment -%}
+      HERO
+      Mantiene la misma estructura visual de Vanilla Collection.
+    {%- endcomment -%}
+    <section class="collection-hero">
+
+      <div class="collections-copy">
+
+        <div class="hero-title">
+          <span>{{ section.settings.hero_main_title }}</span>
+          <span class="subline">{{ section.settings.hero_subline }}</span>
+        </div>
+
+        <div class="hero-text">
+          <p>{{ section.settings.hero_text1 }}</p>
+          <p>{{ section.settings.hero_text2 }}</p>
+          <p>{{ section.settings.hero_text3 }}</p>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    {%- comment -%}
+      COLLECTION GRID
+
+      IMPORTANTE:
+      Esta página es /collections.
+      Por eso usamos `collections`, NO `collection.products`.
+
+      No usamos paginate aquí porque la cantidad normal de
+      colecciones de la tienda no necesita el mismo paginado
+      que los productos de una colección.
+    {%- endcomment -%}
+
+    <section
+      class="catalogue-grid"
+      id="CollectionGrid"
+    >
+
+      {%- assign visible_collections = collections -%}
+
+      {%- if visible_collections.size == 0 -%}
+
+        <div class="catalogue-card">
+          <p>{{ section.settings.empty_text }}</p>
+        </div>
+
+      {%- else -%}
+
+        {%- for collection in visible_collections -%}
+
+          {%- comment -%}
+            Excluimos la colección Frontpage/Homepage si existe,
+            porque normalmente es una colección técnica de Shopify.
+          {%- endcomment -%}
+
+          {%- unless collection.handle == 'frontpage' -%}
+
+            <a
+              href="{{ collection.url }}"
+              class="catalogue-card"
+              aria-label="{{ collection.title | escape }}"
+            >
+
+              {%- if collection.featured_image -%}
+
+                <div class="catalogue-card-image">
+
+                  {{
+                    collection.featured_image
+                    | image_url: width: 1200
+                    | image_tag:
+                      loading: 'lazy',
+                      widths: '400, 600, 800, 1200',
+                      sizes: '(min-width: 990px) 33vw, 50vw',
+                      alt: collection.title
+                  }}
+
+                </div>
+
+              {%- elsif collection.products.first.featured_image -%}
+
+                <div class="catalogue-card-image">
+
+                  {{
+                    collection.products.first.featured_image
+                    | image_url: width: 1200
+                    | image_tag:
+                      loading: 'lazy',
+                      widths: '400, 600, 800, 1200',
+                      sizes: '(min-width: 990px) 33vw, 50vw',
+                      alt: collection.title
+                  }}
+
+                </div>
+
+              {%- endif -%}
+
+
+              <div class="catalogue-card-content">
+
+                <div class="catalogue-card-title">
+                  <h2>
+                    {{ collection.title }}
+                  </h2>
+                </div>
+
+                <div class="catalogue-card-meta">
+
+                  <span>
+                    {{ collection.all_products_count }}
+                    {{ section.settings.units_text }}
+                  </span>
+
+                  <span>
+                    →
+                  </span>
+
+                </div>
+
+              </div>
+
+            </a>
+
+          {%- endunless -%}
+
+        {%- endfor -%}
+
+      {%- endif -%}
+
+    </section>
+
+
+    {%- comment -%}
+      DIVIDER / FOOTER AREA
+
+      Se mantiene la estructura conceptual del diseño Vanilla.
+    {%- endcomment -%}
+
+    <section class="load-more-section">
+
+      <div class="divider"></div>
+
+    </section>
+
+  </main>
+
+</div>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+
+    const collectionCards = document.querySelectorAll(
+      '#CollectionGrid .catalogue-card'
+    );
+
+    collectionCards.forEach(function (card) {
+
+      card.addEventListener('keydown', function (event) {
+
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          card.click();
+        }
+
+      });
+
+    });
+
+  });
+</script>
+
+
+{% schema %}
+
+{
+  "name": "Vanilla List Collections",
+  "tag": "section",
+
+  "settings": [
+
+    {
+      "type": "text",
+      "id": "hero_main_title",
+      "label": "Hero Main Title",
+      "default": "INDUSTRIAL"
+    },
+
+    {
+      "type": "text",
+      "id": "hero_subline",
+      "label": "Hero Subline",
+      "default": "CATALOGUE 024"
+    },
+
+    {
+      "type": "text",
+      "id": "hero_text1",
+      "label": "Hero Text Line 1",
+      "default": "High-performance garments engineered for urban density."
+    },
+
+    {
+      "type": "text",
+      "id": "hero_text2",
+      "label": "Hero Text Line 2",
+      "default": "Machined construction, obsidian palettes, architectural"
+    },
+
+    {
+      "type": "text",
+      "id": "hero_text3",
+      "label": "Hero Text Line 3",
+      "default": "silhouettes."
+    },
+
+    {
+      "type": "text",
+      "id": "units_text",
+      "label": "Units Text",
+      "default": "UNITS"
+    },
+
+    {
+      "type": "text",
+      "id": "empty_text",
+      "label": "Empty Collections Text",
+      "default": "NO COLLECTIONS AVAILABLE"
+    }
+
+  ],
+
+  "presets": [
+    {
+      "name": "Vanilla List Collections"
+    }
+  ]
+
+}
+
+{% endschema %}
+

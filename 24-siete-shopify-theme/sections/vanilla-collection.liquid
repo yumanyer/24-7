@@ -1,192 +1,454 @@
 {{ 'vanilla-collection.css' | asset_url | stylesheet_tag }}
 
+{%- comment -%}
+  VANILLA COLLECTION
+
+  Esta sección se utiliza directamente en:
+
+  /collections
+
+  Como /collections no tiene un handle de colección específico,
+  obtenemos explícitamente la colección de Shopify cuyo handle es
+  "collections".
+
+  Ejemplo:
+  Shopify Admin
+  Products > Collections
+  Collection handle:
+  collections
+
+  Los productos se obtienen directamente desde Shopify.
+{%- endcomment -%}
+
+{%- assign shopify_collection = collections['collections'] -%}
+
 <div class="page-shell">
+
   <main class="collection-page">
+
+    {%- comment -%}
+      HERO
+    {%- endcomment -%}
+
     <section class="collection-hero">
+
       <div class="collections-copy">
+
         <div class="hero-title">
-          <span>{{ section.settings.hero_main_title }}</span>
-          <span class="subline">{{ section.settings.hero_subline }}</span>
+
+          <span>
+            {{ section.settings.hero_main_title }}
+          </span>
+
+          <span class="subline">
+            {{ section.settings.hero_subline }}
+          </span>
+
         </div>
+
         <div class="hero-text">
-          <p>{{ section.settings.hero_text1 }}</p>
-          <p>{{ section.settings.hero_text2 }}</p>
-          <p>{{ section.settings.hero_text3 }}</p>
+
+          <p>
+            {{ section.settings.hero_text1 }}
+          </p>
+
+          <p>
+            {{ section.settings.hero_text2 }}
+          </p>
+
+          <p>
+            {{ section.settings.hero_text3 }}
+          </p>
+
         </div>
+
       </div>
 
-      <div class="collection-filters" role="tablist" aria-label="{{ section.settings.filters_label }}">
-        {%- assign current_tag = collection.current_tag | default: '' -%}
-        {%- assign all_tags = collection.all_tags -%}
-        
-        <a class="filter pill {% if current_tag == '' %}active{% endif %}" 
-           href="{{ collection.url }}" 
-           role="tab" 
-           aria-selected="{% if current_tag == '' %}true{% else %}false{% endif %}">
-          {{ section.settings.filter_all }}
-        </a>
-        
-        {%- if all_tags.size > 0 -%}
-          {%- for tag in all_tags limit: 10 -%}
-            {%- assign tag_handle = tag | handleize -%}
-            <a class="filter pill {% if current_tag == tag_handle %}active{% endif %}" 
-               href="{{ collection.url }}/{{ tag_handle }}" 
-               role="tab" 
-               aria-selected="{% if current_tag == tag_handle %}true{% else %}false{% endif %}">
-              {{ tag }}
-            </a>
-          {%- endfor -%}
-        {%- else -%}
-          {%- comment -%} Fallback static filters if no tags exist {%- endcomment -%}
-          <a class="filter pill {% if current_tag == 'remeras' %}active{% endif %}" 
-             href="{{ collection.url }}/remeras" 
-             role="tab" 
-             aria-selected="{% if current_tag == 'remeras' %}true{% else %}false{% endif %}">
-            {{ section.settings.filter_remeras }}
-          </a>
-          <a class="filter pill {% if current_tag == 'buzos' %}active{% endif %}" 
-             href="{{ collection.url }}/buzos" 
-             role="tab" 
-             aria-selected="{% if current_tag == 'buzos' %}true{% else %}false{% endif %}">
-            {{ section.settings.filter_buzos }}
-          </a>
-          <a class="filter pill {% if current_tag == 'accesorios' %}active{% endif %}" 
-             href="{{ collection.url }}/accesorios" 
-             role="tab" 
-             aria-selected="{% if current_tag == 'accesorios' %}true{% else %}false{% endif %}">
-            {{ section.settings.filter_accesorios }}
-          </a>
-        {%- endif -%}
-      </div>
     </section>
 
-    {%- paginate collection.products by section.settings.products_per_page -%}
-    <section class="catalogue-grid" id="ProductGrid">
-        {%- if collection.products.size == 0 -%}
-          <div class="catalogue-card">
-            <p>{{ 'sections.collection_template.empty' | t }}</p>
+
+    {%- comment -%}
+      PRODUCT GRID
+
+      Los productos vienen directamente de Shopify.
+
+      /collections
+          ↓
+      collections['collections']
+          ↓
+      shopify_collection.products
+    {%- endcomment -%}
+
+    <section
+      class="catalogue-grid"
+      id="CollectionGrid"
+    >
+
+      {%- if shopify_collection == blank -%}
+
+        <div class="catalogue-card">
+
+          <div class="catalogue-card-content">
+
+            <div class="catalogue-card-title">
+
+              <h2>
+                {{ section.settings.empty_text }}
+              </h2>
+
+            </div>
+
           </div>
-        {%- else -%}
-          {%- for product in collection.products -%}
-            {% render 'vanilla-collection-product-card', card_product: product %}
+
+        </div>
+
+      {%- elsif shopify_collection.products_count == 0 -%}
+
+        <div class="catalogue-card">
+
+          <div class="catalogue-card-content">
+
+            <div class="catalogue-card-title">
+
+              <h2>
+                {{ section.settings.empty_products_text }}
+              </h2>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      {%- else -%}
+
+        {%- paginate shopify_collection.products by 24 -%}
+
+          {%- for product in shopify_collection.products -%}
+
+            <article
+              class="catalogue-card"
+              data-product-id="{{ product.id }}"
+            >
+
+              <a
+                href="{{ product.url }}"
+                class="catalogue-card-link"
+                aria-label="{{ product.title | escape }}"
+              >
+
+                {%- comment -%}
+                  PRODUCT IMAGE
+                {%- endcomment -%}
+
+                {%- if product.featured_image -%}
+
+                  <div class="catalogue-card-image">
+
+                    {{
+                      product.featured_image
+                      | image_url: width: 1200
+                      | image_tag:
+                        loading: 'lazy',
+                        widths: '400, 600, 800, 1200',
+                        sizes: '(min-width: 990px) 33vw, 50vw',
+                        alt: product.featured_image.alt | default: product.title | escape
+                    }}
+
+                  </div>
+
+                {%- endif -%}
+
+
+                {%- comment -%}
+                  PRODUCT META
+                {%- endcomment -%}
+
+                <div class="catalogue-card-content">
+
+                  <div class="catalogue-card-title">
+
+                    <h2>
+                      {{ product.title }}
+                    </h2>
+
+                  </div>
+
+
+                  <div class="catalogue-card-meta">
+
+                    {%- if product.vendor != blank -%}
+
+                      <span>
+                        {{ product.vendor }}
+                      </span>
+
+                    {%- endif -%}
+
+                    <span>
+                      {{ product.price | money }}
+                    </span>
+
+                    <span>
+                      →
+                    </span>
+
+                  </div>
+
+                </div>
+
+              </a>
+
+
+              {%- comment -%}
+                PRODUCT SIZES / VARIANTS
+
+                Mostramos las variantes disponibles para mantener
+                la estructura visual del catálogo Vanilla.
+              {%- endcomment -%}
+
+              {%- if product.has_only_default_variant == false -%}
+
+                <div class="catalogue-sizes">
+
+                  {%- for option in product.options_with_values -%}
+
+                    {%- for value in option.values -%}
+
+                      <span>
+                        {{ value }}
+                      </span>
+
+                    {%- endfor -%}
+
+                  {%- endfor -%}
+
+                </div>
+
+              {%- endif -%}
+
+            </article>
+
           {%- endfor -%}
-        {%- endif -%}
+
+
+          {%- comment -%}
+            PAGINATION
+
+            Se mantiene preparada por si la colección supera
+            los 24 productos.
+          {%- endcomment -%}
+
+          {%- if paginate.pages > 1 -%}
+
+            <nav
+              class="collection-pagination"
+              aria-label="Pagination"
+            >
+
+              {%- if paginate.previous -%}
+
+                <a
+                  href="{{ paginate.previous.url }}"
+                  class="pagination-previous"
+                >
+                  ←
+                  {{ section.settings.previous_text }}
+                </a>
+
+              {%- endif -%}
+
+
+              <div class="pagination-pages">
+
+                {%- for part in paginate.parts -%}
+
+                  {%- if part.is_link -%}
+
+                    <a
+                      href="{{ part.url }}"
+                      aria-label="Page {{ part.title }}"
+                    >
+                      {{ part.title }}
+                    </a>
+
+                  {%- else -%}
+
+                    <span
+                      {% if part.title == paginate.current_page %}
+                        aria-current="page"
+                      {% endif %}
+                    >
+                      {{ part.title }}
+                    </span>
+
+                  {%- endif -%}
+
+                {%- endfor -%}
+
+              </div>
+
+
+              {%- if paginate.next -%}
+
+                <a
+                  href="{{ paginate.next.url }}"
+                  class="pagination-next"
+                >
+                  {{ section.settings.next_text }}
+                  →
+                </a>
+
+              {%- endif -%}
+
+            </nav>
+
+          {%- endif -%}
+
+        {%- endpaginate -%}
+
+      {%- endif -%}
+
     </section>
+
+
+    {%- comment -%}
+      DIVIDER / FOOTER AREA
+    {%- endcomment -%}
 
     <section class="load-more-section">
-        {%- if paginate.next -%}
-          <a class="load-more" href="{{ paginate.next.url }}">{{ section.settings.load_more_text }}</a>
-        {%- else -%}
-          <button class="load-more" disabled>{{ section.settings.load_more_text }}</button>
-        {%- endif -%}
+
       <div class="divider"></div>
+
     </section>
-    {%- endpaginate -%}
+
   </main>
+
 </div>
 
+
 <script>
-document.addEventListener('DOMContentLoaded', function () {
-  // Filter pill buttons - visual state is handled by server-side rendering (active class)
-  // No additional JS needed since they're actual links
-  
-  // Load more button interaction
-  const loadMoreBtn = document.querySelector('.load-more');
-  if (loadMoreBtn) {
-    loadMoreBtn.addEventListener('click', function (e) {
-      if (this.disabled) {
-        e.preventDefault();
+  document.addEventListener('DOMContentLoaded', function () {
+
+    const collectionCards = document.querySelectorAll(
+      '#CollectionGrid .catalogue-card'
+    );
+
+    collectionCards.forEach(function (card) {
+
+      const link = card.querySelector('.catalogue-card-link');
+
+      if (!link) {
+        return;
       }
+
+      card.addEventListener('keydown', function (event) {
+
+        if (
+          event.key === 'Enter' ||
+          event.key === ' '
+        ) {
+
+          if (event.target === card) {
+
+            event.preventDefault();
+
+            link.click();
+
+          }
+
+        }
+
+      });
+
     });
-  }
-});
+
+  });
 </script>
 
+
 {% schema %}
+
 {
   "name": "Vanilla Collection",
+
   "tag": "section",
+
+  "class": "vanilla-collection-section",
+
   "settings": [
+
     {
       "type": "text",
       "id": "hero_main_title",
       "label": "Hero Main Title",
       "default": "INDUSTRIAL"
     },
+
     {
       "type": "text",
       "id": "hero_subline",
       "label": "Hero Subline",
       "default": "CATALOGUE 024"
     },
+
     {
       "type": "text",
       "id": "hero_text1",
       "label": "Hero Text Line 1",
       "default": "High-performance garments engineered for urban density."
     },
+
     {
       "type": "text",
       "id": "hero_text2",
       "label": "Hero Text Line 2",
       "default": "Machined construction, obsidian palettes, architectural"
     },
+
     {
       "type": "text",
       "id": "hero_text3",
       "label": "Hero Text Line 3",
       "default": "silhouettes."
     },
+
     {
       "type": "text",
-      "id": "filters_label",
-      "label": "Filters ARIA Label",
-      "default": "Filtros de colección"
+      "id": "empty_text",
+      "label": "Missing Collection Text",
+      "default": "COLLECTION NOT AVAILABLE"
     },
+
     {
       "type": "text",
-      "id": "filter_all",
-      "label": "Filter All Label",
-      "default": "ALL_UNITS"
+      "id": "empty_products_text",
+      "label": "Empty Products Text",
+      "default": "NO PRODUCTS AVAILABLE"
     },
+
     {
       "type": "text",
-      "id": "filter_remeras",
-      "label": "Filter Remeras Label",
-      "default": "REMERAS"
+      "id": "previous_text",
+      "label": "Previous Page Text",
+      "default": "PREVIOUS"
     },
+
     {
       "type": "text",
-      "id": "filter_buzos",
-      "label": "Filter Buzos Label",
-      "default": "BUZOS"
-    },
-    {
-      "type": "text",
-      "id": "filter_accesorios",
-      "label": "Filter Accesorios Label",
-      "default": "ACCESORIOS"
-    },
-    {
-      "type": "range",
-      "id": "products_per_page",
-      "label": "Products per page",
-      "min": 6,
-      "max": 36,
-      "step": 3,
-      "default": 9
-    },
-    {
-      "type": "text",
-      "id": "load_more_text",
-      "label": "Load More Text",
-      "default": "LOAD_NEXT_BATCH"
+      "id": "next_text",
+      "label": "Next Page Text",
+      "default": "NEXT"
     }
+
   ],
+
   "presets": [
     {
       "name": "Vanilla Collection"
     }
   ]
+
 }
+
 {% endschema %}

@@ -1,5 +1,7 @@
+{%- assign contact_page = pages | where: 'template_suffix', 'contact' | first -%}
+
 <header class="site-navbar" role="banner">
-  <a class="navbar-brand" href="{{ routes.root_url }}">{{ shop.name }}</a>
+  <a class="navbar-brand" href="{{ routes.root_url }}">{{ section.settings.brand_text | default: shop.name }}</a>
   
   <nav class="navbar-icons" aria-label="{{ 'general.navigation.menu' | t }}">
     <a class="navbar-icon {% if request.page_type == 'index' %}active{% endif %}" href="{{ routes.root_url }}" aria-label="{{ 'general.navigation.home' | t }}" title="HOME">
@@ -14,7 +16,7 @@
         <path d="M20.38 3.46 16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z"/>
       </svg>
     </a>
-    <a class="navbar-icon {% if request.page_type == 'page' and template == 'page.contact' %}active{% endif %}" href="{{ routes.contact_url }}" aria-label="{{ 'general.navigation.contact' | t }}" title="CONTACTO">
+    <a class="navbar-icon {% if contact_page and template == 'page.contact' %}active{% endif %}" href="{{ contact_page.url | default: '#' }}" aria-label="{{ 'general.navigation.contact' | t }}" title="CONTACTO">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
         <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/>
       </svg>
