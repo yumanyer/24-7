@@ -1,5 +1,7 @@
 // ============================================
 // CART DRAWER - SHARED LOGIC
+// In the Shopify theme this drawer is backed by
+// the real Shopify cart (/cart.js, /cart/add.js).
 // ============================================
 
 class CartDrawer {
@@ -9,24 +11,28 @@ class CartDrawer {
     this.cartBtn = null;
     this.closeBtn = null;
     this.isOpen = false;
-    
+
+    this.shopifyCartItems = null;
+    this._refreshing = null;
+
     this.init();
   }
 
   init() {
     // Create drawer HTML if it doesn't exist
     this.createDrawerHTML();
-    
+
     // Get references to elements
     this.drawer = document.querySelector('.cart-drawer');
     this.overlay = document.querySelector('.cart-drawer-overlay');
-    this.cartBtn = document.querySelector('[aria-label="Carrito"]');
+    this.cartBtn =
+      document.querySelector('[data-cart-trigger]') || document.querySelector('[aria-label="Carrito"]');
     this.closeBtn = document.querySelector('.cart-drawer-close');
     this.checkoutBtn = document.querySelector('.cart-checkout-btn');
-    
+
     // Set up event listeners
     this.setupEventListeners();
-    
+
     // Render initial state
     this.renderCart();
   }
@@ -117,13 +123,20 @@ class CartDrawer {
 
   open() {
     this.isOpen = true;
+    if (!this.drawer) return;
     this.drawer.classList.add('active');
     this.overlay.classList.add('active');
     document.body.style.overflow = 'hidden';
+
+    // Keep the drawer in sync with the real Shopify cart.
+    if (window.routes && window.routes.cart_url) {
+      this.refreshFromServer();
+    }
   }
 
   close() {
     this.isOpen = false;
+    if (!this.drawer) return;
     this.drawer.classList.remove('active');
     this.overlay.classList.remove('active');
     document.body.style.overflow = '';
@@ -137,93 +150,197 @@ class CartDrawer {
     }
   }
 
+  /* ---------------------------------------------------------------
+     Rendering (works with either localStorage mock items from the
+     prototype or real Shopify line items).
+     --------------------------------------------------------------- */
   renderCart() {
     const cartItems = this.getCartItems();
     const itemsList = document.querySelector('.cart-items-list');
-    
     if (!itemsList) return;
 
-    // Clear current items
-    itemsList.innerHTML = '';
-
     if (cartItems.length === 0) {
-      // Show empty state
-      itemsList.innerHTML = `
-        <div class="cart-empty">
-          <div class="cart-empty-icon">🛒</div>
-          <div class="cart-empty-text">Tu carrito está vacío</div>
-          <div class="cart-empty-subtext">Explora nuestras colecciones</div>
-        </div>
-      `;
+      this.renderEmptyState(itemsList);
     } else {
-      // Render items
-      cartItems.forEach((item, index) => {
-        const itemElement = document.createElement('div');
-        itemElement.className = 'cart-item';
-        itemElement.innerHTML = `
-          <div class="cart-item-image">
-            <img src="https://via.placeholder.com/80x80?text=Item${index + 1}" alt="${item.name}" />
-          </div>
-          <div class="cart-item-details">
-            <div>
-              <div class="cart-item-name">${item.name}</div>
-              <div class="cart-item-size">TALLA: ${item.size || 'M'}</div>
-            </div>
-            <div class="cart-item-price">$${item.price.toFixed(2)}</div>
-          </div>
-        `;
-        itemsList.appendChild(itemElement);
-      });
+      this.renderItems(itemsList, cartItems);
     }
 
-    // Update summary
     this.updateSummary(cartItems);
-    this.updateBadge();
+    this.updateBadge(cartItems.length);
   }
 
-  updateBadge() {
-    const count = this.getCartItems().length;
+  renderEmptyState(itemsList) {
+    itemsList.innerHTML = `
+      <div class="cart-empty">
+        <div class="cart-empty-icon">🛒</div>
+        <div class="cart-empty-text">Tu carrito está vacío</div>
+        <div class="cart-empty-subtext">Explora nuestras colecciones</div>
+      </div>
+    `;
+  }
+
+  renderItems(itemsList, cartItems) {
+    itemsList.innerHTML = '';
+
+    cartItems.forEach((item) => {
+      const itemElement = document.createElement('div');
+      itemElement.className = 'cart-item';
+
+      const name = item.product_title || item.name || item.title || 'Producto';
+      const image = this.getItemImage(item);
+      const variantTitle = item.variant_title && item.variant_title !== 'Default Title' ? item.variant_title : '';
+      const quantity = item.quantity || 1;
+      const linePrice = item.final_line_price || item.line_price || item.price || 0;
+
+      const sizeLine = [variantTitle ? `TALLA: ${this.escapeHtml(variantTitle)}` : '', quantity > 1 ? `× ${quantity}` : '']
+        .filter(Boolean)
+        .join(' ');
+
+      itemElement.innerHTML = `
+        <div class="cart-item-image">
+          <img src="${image}" alt="${this.escapeHtml(name)}" />
+        </div>
+        <div class="cart-item-details">
+          <div>
+            <div class="cart-item-name">${this.escapeHtml(name)}</div>
+            <div class="cart-item-size">${sizeLine}</div>
+          </div>
+          <div class="cart-item-price">${this.formatMoney(linePrice)}</div>
+        </div>
+      `;
+      itemsList.appendChild(itemElement);
+    });
+  }
+
+  getItemImage(item) {
+    if (item.featured_image) {
+      if (typeof item.featured_image === 'string') return item.featured_image;
+      if (item.featured_image.url) return item.featured_image.url;
+    }
+    if (item.image && typeof item.image === 'string') return item.image;
+    return 'https://via.placeholder.com/80x80?text=24%2F7';
+  }
+
+  updateBadge(count) {
     const badge = document.querySelector('.cart-badge');
     if (!badge) return;
 
-    if (count > 0) {
+    const items = typeof count === 'number' ? count : this.getCartItems().length;
+    if (items > 0) {
       badge.hidden = false;
-      badge.textContent = count > 99 ? '99+' : count;
+      badge.textContent = items > 99 ? '99+' : items;
     } else {
       badge.hidden = true;
     }
   }
 
   getCheckoutUrl() {
+    if (window.routes && window.routes.cart_url) {
+      return '/checkout';
+    }
     const path = window.location.pathname;
     const inSubdir = /^\/[^/]+\//.test(path) && !path.replace(/\?.*/, '').endsWith('/');
     return inSubdir ? '../checkout/index.html' : 'checkout/index.html';
   }
 
   updateSummary(items) {
-    const subtotal = items.reduce((sum, item) => sum + item.price, 0);
-    const total = subtotal; // Shipping is free in this example
+    const subtotal = items.reduce((sum, item) => sum + (item.final_line_price || item.line_price || item.price || 0), 0);
+    const total = subtotal; // Shipping is free in this store
 
     const subtotalEl = document.querySelector('.cart-summary-row.subtotal .cart-summary-value');
     const totalEl = document.querySelector('.cart-summary-row.total .cart-summary-value');
 
-    if (subtotalEl) {
-      subtotalEl.textContent = `$${subtotal.toFixed(2)}`;
-    }
-    if (totalEl) {
-      totalEl.textContent = `$${total.toFixed(2)}`;
-    }
+    if (subtotalEl) subtotalEl.textContent = this.formatMoney(subtotal);
+    if (totalEl) totalEl.textContent = this.formatMoney(total);
   }
 
   getCartItems() {
-    // This would typically come from localStorage or a state management system
-    // For now, return mock data or empty array
+    // Real Shopify cart data takes precedence; falls back to the
+    // localStorage list used by the standalone prototype pages.
+    if (this.shopifyCartItems) return this.shopifyCartItems;
+
     try {
       const cart = localStorage.getItem('cart');
       return cart ? JSON.parse(cart) : [];
     } catch {
       return [];
     }
+  }
+
+  /* ---------------------------------------------------------------
+     Shopify integration
+     --------------------------------------------------------------- */
+  refreshFromServer() {
+    if (!window.routes || !window.routes.cart_url || this._refreshing) {
+      return Promise.resolve();
+    }
+
+    this._refreshing = fetch(window.routes.cart_url + '.js', {
+      headers: { 'X-Requested-With': 'XMLHttpRequest' },
+    })
+      .then((response) => response.json())
+      .then((cart) => {
+        this.renderShopifyCart(cart);
+      })
+      .catch(() => {})
+      .finally(() => {
+        this._refreshing = null;
+      });
+
+    return this._refreshing;
+  }
+
+  renderShopifyCart(cart) {
+    this.shopifyCartItems = (cart.items || []).map((item) => ({
+      id: item.id,
+      product_title: item.product_title,
+      title: item.title,
+      variant_title: item.variant_title,
+      quantity: item.quantity,
+      price: item.final_line_price || item.line_price || item.price,
+      final_line_price: item.final_line_price || item.line_price || item.price,
+      image: this.getItemImage(item),
+    }));
+
+    const itemsList = document.querySelector('.cart-items-list');
+    if (!itemsList) return;
+
+    if (this.shopifyCartItems.length === 0) {
+      this.renderEmptyState(itemsList);
+    } else {
+      this.renderItems(itemsList, this.shopifyCartItems);
+    }
+
+    const subtotal = cart.items_subtotal_price || cart.total_price || 0;
+    const subtotalEl = document.querySelector('.cart-summary-row.subtotal .cart-summary-value');
+    const totalEl = document.querySelector('.cart-summary-row.total .cart-summary-value');
+    if (subtotalEl) subtotalEl.textContent = this.formatMoney(subtotal);
+    if (totalEl) totalEl.textContent = this.formatMoney(cart.total_price || subtotal);
+
+    this.updateBadge(cart.item_count || this.shopifyCartItems.length);
+  }
+
+  /* ---------------------------------------------------------------
+     Helpers
+     --------------------------------------------------------------- */
+  formatMoney(cents) {
+    if (typeof window.formatMoney === 'function') {
+      const moneyFormat =
+        (document.querySelector('.vanilla-product-page') &&
+          document.querySelector('.vanilla-product-page').dataset.moneyFormat) ||
+        '${{amount}}';
+      return window.formatMoney(cents, moneyFormat);
+    }
+    return `$${(cents / 100).toFixed(2)}`;
+  }
+
+  escapeHtml(value) {
+    return String(value)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
   }
 
   addItem(item) {
@@ -246,6 +363,41 @@ class CartDrawer {
       console.error('Error clearing cart');
     }
   }
+}
+
+/* ---------------------------------------------------------------
+   Bridge element `<cart-drawer>`
+   Dawn's product-form.js looks for `cart-notification` or
+   `cart-drawer` to render the cart after /cart/add.js. We expose a
+   tiny element that drives the vanilla drawer above.
+   --------------------------------------------------------------- */
+if (!customElements.get('cart-drawer')) {
+  class VanillaCartDrawerBridge extends HTMLElement {
+    getSectionsToRender() {
+      return [];
+    }
+
+    setActiveElement(element) {
+      this.activeElement = element;
+    }
+
+    open() {
+      if (window.cartDrawer) window.cartDrawer.open();
+    }
+
+    close() {
+      if (window.cartDrawer) window.cartDrawer.close();
+    }
+
+    renderContents(parsedState) {
+      if (!window.cartDrawer) return;
+      // Open immediately; refreshFromServer() replaces the stale content
+      // with the authoritative cart once /cart.js responds.
+      window.cartDrawer.open();
+    }
+  }
+
+  customElements.define('cart-drawer', VanillaCartDrawerBridge);
 }
 
 // Initialize cart drawer when DOM is ready

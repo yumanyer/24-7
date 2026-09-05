@@ -2,6 +2,16 @@
   "sections": {
     "main": {
       "type": "vanilla-product",
+      "blocks": {
+        "variant_picker": {
+          "type": "variant_picker",
+          "settings": {}
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {}
+        }
+      },
       "settings": {}
     }
   },

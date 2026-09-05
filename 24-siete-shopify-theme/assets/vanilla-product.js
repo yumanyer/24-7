@@ -1,203 +1,187 @@
 // ============================================
-// PRODUCT SIZE SELECTION
+// VANILLA PRODUCT PAGE
+// Gallery + real variant selection (Shopify data)
 // ============================================
-document.querySelectorAll('.size-btn').forEach(button => {
-    button.addEventListener('click', function() {
-        // Remove active class from all buttons
-        document.querySelectorAll('.size-btn').forEach(btn => {
-            btn.classList.remove('active');
+
+(function () {
+  'use strict';
+
+  var root = document.querySelector('.vanilla-product-page');
+  if (!root) return;
+
+  var sectionId = root.dataset.sectionId;
+
+  /* ----------------------------------------------------------
+     PRODUCT GALLERY: click the image to cycle through the real
+     media attached to the product (product.media).
+     ---------------------------------------------------------- */
+  var imageContainer = root.querySelector('.product-image-container');
+  var mediaList = root.querySelector('.product-media-list');
+  var mediaItems = mediaList ? Array.from(mediaList.querySelectorAll('.product-media-item')) : [];
+
+  function setActiveMedia(item) {
+    mediaItems.forEach(function (el) {
+      el.classList.remove('is-active');
+    });
+    item.classList.add('is-active');
+  }
+
+  if (mediaItems.length > 1 && mediaList) {
+    if (imageContainer) imageContainer.classList.add('product-image-container--interactive');
+
+    mediaList.addEventListener('click', function (event) {
+      // Let native players work; only cycle when clicking away from them.
+      if (event.target.closest('video, model-viewer, a, button')) return;
+
+      var currentIndex = mediaItems.findIndex(function (item) {
+        return item.classList.contains('is-active');
+      });
+      var nextIndex = (currentIndex + 1) % mediaItems.length;
+      setActiveMedia(mediaItems[nextIndex]);
+    });
+  }
+
+  /* ----------------------------------------------------------
+     VARIANT CHANGE (real Shopify variants)
+     Uses the theme's own <variant-selects> element. On change,
+     finds the matching variant in the embedded product.variants
+     JSON and syncs price, media, hidden input and button state.
+     ---------------------------------------------------------- */
+  var variantSelects = root.querySelector('variant-selects');
+  var variants = [];
+  var variantsScript = document.getElementById('VanillaProductVariants-' + sectionId);
+
+  if (variantsScript) {
+    try {
+      variants = JSON.parse(variantsScript.textContent) || [];
+    } catch (e) {
+      variants = [];
+    }
+  }
+
+  var priceEl = document.getElementById('price-' + sectionId);
+  var comparePriceEl = document.getElementById('ComparePrice-' + sectionId);
+  var productForm = root.querySelector('product-form');
+  var idInput = root.querySelector('#product-form-' + sectionId + ' input[name="id"]');
+  var moneyFormat = root.dataset.moneyFormat || '${{amount}}';
+  var currencyCode = (root.dataset.currencyCode || '').trim();
+  var selectedVariantScript =
+    variantSelects && variantSelects.querySelector('[data-selected-variant]');
+
+  function formatPrice(cents) {
+    if (typeof window.formatMoney === 'function') {
+      return window.formatMoney(cents, moneyFormat);
+    }
+    return (cents / 100).toFixed(2);
+  }
+
+  function withCurrency(value) {
+    return currencyCode ? value + ' ' + currencyCode : value;
+  }
+
+  function getVariantOptions(variant) {
+    var options = variant.options;
+    if (!Array.isArray(options)) {
+      options = [variant.option1, variant.option2, variant.option3];
+    }
+    return options.filter(Boolean);
+  }
+
+  function findSelectedVariant() {
+    if (!variantSelects) return null;
+
+    var optionValues = Array.from(variantSelects.querySelectorAll('input:checked')).map(function (input) {
+      return input.value;
+    });
+
+    for (var i = 0; i < variants.length; i++) {
+      var options = getVariantOptions(variants[i]);
+      if (options.length !== optionValues.length) continue;
+
+      var matches = options.every(function (option, index) {
+        return option === optionValues[index];
+      });
+
+      if (matches) return variants[i];
+    }
+    return null;
+  }
+
+  function updateForVariant(variant) {
+    if (idInput) idInput.value = variant ? variant.id : '';
+
+    if (priceEl) {
+      priceEl.textContent = variant ? withCurrency(formatPrice(variant.price)) : '\u2014';
+    }
+
+    if (comparePriceEl) {
+      var showCompare = variant && variant.compare_at_price && variant.compare_at_price > variant.price;
+      comparePriceEl.textContent = showCompare ? withCurrency(formatPrice(variant.compare_at_price)) : '';
+      comparePriceEl.hidden = !showCompare;
+    }
+
+    if (productForm) {
+      var available = !!(variant && variant.available);
+      productForm.toggleSubmitButton(
+        !available,
+        available ? window.variantStrings.addToCart : window.variantStrings.soldOut
+      );
+    }
+
+    // Activate the media attached to the selected variant, if present.
+    if (mediaItems.length && variant && variant.featured_media && variant.featured_media.id) {
+      var target = mediaList.querySelector('li[data-media-id="' + variant.featured_media.id + '"]');
+      if (target) setActiveMedia(target);
+    }
+
+    // Keep Dawn's data-selected-variant payload truthful.
+    if (selectedVariantScript) {
+      try {
+        selectedVariantScript.textContent = JSON.stringify(variant);
+      } catch (e) {
+        /* ignore */
+      }
+    }
+  }
+
+  if (variantSelects) {
+    variantSelects.addEventListener('change', function () {
+      updateForVariant(findSelectedVariant());
+    });
+  }
+
+  // Initial state sync (keeps price/media/button consistent even when the
+  // browser restores the last selected options).
+  updateForVariant(findSelectedVariant() || variants[0] || null);
+
+  /* ----------------------------------------------------------
+     SCROLL REVEAL (visual parity with the prototype)
+     ---------------------------------------------------------- */
+  var revealTargets = ['.product-card', '.craft-container', '.accessories-grid'];
+  var revealElements = revealTargets.reduce(function (list, selector) {
+    return list.concat(Array.from(root.querySelectorAll(selector)));
+  }, []);
+
+  function initReveal() {
+    if (revealElements.length === 0 || !('IntersectionObserver' in window)) return;
+
+    var observer = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('vanilla-reveal-visible');
+            observer.unobserve(entry.target);
+          }
         });
-        // Add active class to clicked button
-        this.classList.add('active');
+      },
+      { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
+    );
+
+    revealElements.forEach(function (el) {
+      el.classList.add('vanilla-reveal');
+      observer.observe(el);
     });
-});
+  }
 
-// ============================================
-// BUY BUTTON FUNCTIONALITY
-// ============================================
-const buyBtn = document.getElementById('buyBtn');
-
-if (buyBtn) {
-    buyBtn.addEventListener('click', function() {
-        // Get selected size
-        const selectedSize = document.querySelector('.size-btn.active');
-        
-        if (!selectedSize) {
-            alert('Por favor, selecciona una talla');
-            return;
-        }
-
-        const size = selectedSize.getAttribute('data-size');
-        const product = {
-            name: 'OBSIDIAN CORE HOODIE',
-            price: 240.00,
-            size: size,
-            image: 'https://via.placeholder.com/400x500?text=OBSIDIAN+CORE+HOODIE'
-        };
-
-        // Add to cart and open the shared drawer
-        if (window.cartDrawer) {
-            window.cartDrawer.addItem(product);
-        }
-
-        // Show confirmation
-        const originalText = buyBtn.textContent;
-        buyBtn.textContent = '✓ AGREGADO AL CARRITO';
-        buyBtn.style.backgroundColor = '#2a2a2a';
-        buyBtn.style.color = '#fff';
-
-        setTimeout(() => {
-            buyBtn.textContent = originalText;
-            buyBtn.style.backgroundColor = '#ffffff';
-            buyBtn.style.color = '#0a0a0a';
-        }, 2000);
-    });
-}
-
-// ============================================
-// SMOOTH SCROLL BEHAVIOR
-// ============================================
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function(e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
-        }
-    });
-});
-
-// ============================================
-// IMAGE LAZY LOADING & PLACEHOLDER
-// ============================================
-function handleImageLoading() {
-    const images = document.querySelectorAll('img');
-    
-    images.forEach(img => {
-        // Fallback for broken images
-        img.addEventListener('error', function() {
-            this.style.display = 'block';
-            this.style.width = '100%';
-            this.style.height = '100%';
-            this.style.backgroundColor = '#1a1a1a';
-        });
-
-        // If image is already loaded
-        if (img.complete) {
-            img.dispatchEvent(new Event('load'));
-        }
-    });
-}
-
-// Initialize image loading
-document.addEventListener('DOMContentLoaded', handleImageLoading);
-
-// ============================================
-// ANIMATE ELEMENTS ON SCROLL
-// ============================================
-function observeElements() {
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
-            }
-        });
-    }, {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    });
-
-    // Observe product cards and sections
-    document.querySelectorAll('.product-card, .craft-container, .accessories-grid').forEach(el => {
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(20px)';
-        el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-        observer.observe(el);
-    });
-}
-
-// Initialize observer when DOM is ready
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', observeElements);
-} else {
-    observeElements();
-}
-
-// ============================================
-// PRODUCT CARD HOVER EFFECTS
-// ============================================
-document.querySelectorAll('.product-card').forEach(card => {
-    card.addEventListener('mouseenter', function() {
-        const image = this.querySelector('.product-card-image');
-        if (image) {
-            image.style.transform = 'scale(1.05)';
-            image.style.transition = 'transform 0.3s ease';
-        }
-    });
-
-    card.addEventListener('mouseleave', function() {
-        const image = this.querySelector('.product-card-image');
-        if (image) {
-            image.style.transform = 'scale(1)';
-        }
-    });
-});
-
-// ============================================
-// SIZE BUTTON KEYBOARD NAVIGATION
-// ============================================
-document.querySelectorAll('.size-btn').forEach((btn, index) => {
-    btn.addEventListener('keydown', function(e) {
-        const buttons = document.querySelectorAll('.size-btn');
-        
-        if (e.key === 'ArrowRight') {
-            e.preventDefault();
-            const nextIndex = (index + 1) % buttons.length;
-            buttons[nextIndex].focus();
-            buttons[nextIndex].click();
-        } else if (e.key === 'ArrowLeft') {
-            e.preventDefault();
-            const prevIndex = (index - 1 + buttons.length) % buttons.length;
-            buttons[prevIndex].focus();
-            buttons[prevIndex].click();
-        }
-    });
-});
-
-// ============================================
-// PRODUCT GALLERY SIMULATION
-// ============================================
-const productImage = document.querySelector('.product-image');
-let currentImageIndex = 0;
-
-// Simulated gallery images (in a real app, these would come from the server)
-const galleryImages = [
-    'https://via.placeholder.com/400x500?text=OBSIDIAN+CORE+HOODIE+1',
-    'https://via.placeholder.com/400x500?text=OBSIDIAN+CORE+HOODIE+2',
-    'https://via.placeholder.com/400x500?text=OBSIDIAN+CORE+HOODIE+3'
-];
-
-if (productImage) {
-    productImage.addEventListener('click', function() {
-        currentImageIndex = (currentImageIndex + 1) % galleryImages.length;
-        this.src = galleryImages[currentImageIndex];
-        
-        // Add fade animation
-        this.style.opacity = '0.5';
-        setTimeout(() => {
-            this.style.opacity = '1';
-        }, 150);
-    });
-    
-    productImage.style.cursor = 'pointer';
-    productImage.style.transition = 'opacity 0.3s ease';
-}
-
-// ============================================
-// INITIALIZE APP
-// ============================================
-console.log('24/SIETE Product Detail Page loaded');
+  initReveal();
+})();
