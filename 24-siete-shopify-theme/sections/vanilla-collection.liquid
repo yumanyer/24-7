@@ -20,22 +20,17 @@
   Los productos se obtienen directamente desde Shopify.
 {%- endcomment -%}
 
-{%- assign shopify_collection = collections['collections'] -%}
+{%- assign shopify_collection = collections.collections -%}
 
 <div class="page-shell">
-
   <main class="collection-page">
-
     {%- comment -%}
       HERO
     {%- endcomment -%}
 
     <section class="collection-hero">
-
       <div class="collections-copy">
-
         <div class="hero-title">
-
           <span>
             {{ section.settings.hero_main_title }}
           </span>
@@ -43,11 +38,9 @@
           <span class="subline">
             {{ section.settings.hero_subline }}
           </span>
-
         </div>
 
         <div class="hero-text">
-
           <p>
             {{ section.settings.hero_text1 }}
           </p>
@@ -59,13 +52,9 @@
           <p>
             {{ section.settings.hero_text3 }}
           </p>
-
         </div>
-
       </div>
-
     </section>
-
 
     {%- comment -%}
       PRODUCT GRID
@@ -83,154 +72,33 @@
       class="catalogue-grid"
       id="CollectionGrid"
     >
-
       {%- if shopify_collection == blank -%}
-
         <div class="catalogue-card">
-
-          <div class="catalogue-card-content">
-
-            <div class="catalogue-card-title">
-
+          <div class="catalogue-meta">
+            <div>
               <h2>
                 {{ section.settings.empty_text }}
               </h2>
-
             </div>
-
           </div>
-
         </div>
 
       {%- elsif shopify_collection.products_count == 0 -%}
-
         <div class="catalogue-card">
-
-          <div class="catalogue-card-content">
-
-            <div class="catalogue-card-title">
-
+          <div class="catalogue-meta">
+            <div>
               <h2>
                 {{ section.settings.empty_products_text }}
               </h2>
-
             </div>
-
           </div>
-
         </div>
 
       {%- else -%}
-
         {%- paginate shopify_collection.products by 24 -%}
-
           {%- for product in shopify_collection.products -%}
-
-            <article
-              class="catalogue-card"
-              data-product-id="{{ product.id }}"
-            >
-
-              <a
-                href="{{ product.url }}"
-                class="catalogue-card-link"
-                aria-label="{{ product.title | escape }}"
-              >
-
-                {%- comment -%}
-                  PRODUCT IMAGE
-                {%- endcomment -%}
-
-                {%- if product.featured_image -%}
-
-                  <div class="catalogue-card-image">
-
-                    {{
-                      product.featured_image
-                      | image_url: width: 1200
-                      | image_tag:
-                        loading: 'lazy',
-                        widths: '400, 600, 800, 1200',
-                        sizes: '(min-width: 990px) 33vw, 50vw',
-                        alt: product.featured_image.alt | default: product.title | escape
-                    }}
-
-                  </div>
-
-                {%- endif -%}
-
-
-                {%- comment -%}
-                  PRODUCT META
-                {%- endcomment -%}
-
-                <div class="catalogue-card-content">
-
-                  <div class="catalogue-card-title">
-
-                    <h2>
-                      {{ product.title }}
-                    </h2>
-
-                  </div>
-
-
-                  <div class="catalogue-card-meta">
-
-                    {%- if product.vendor != blank -%}
-
-                      <span>
-                        {{ product.vendor }}
-                      </span>
-
-                    {%- endif -%}
-
-                    <span>
-                      {{ product.price | money }}
-                    </span>
-
-                    <span>
-                      →
-                    </span>
-
-                  </div>
-
-                </div>
-
-              </a>
-
-
-              {%- comment -%}
-                PRODUCT SIZES / VARIANTS
-
-                Mostramos las variantes disponibles para mantener
-                la estructura visual del catálogo Vanilla.
-              {%- endcomment -%}
-
-              {%- if product.has_only_default_variant == false -%}
-
-                <div class="catalogue-sizes">
-
-                  {%- for option in product.options_with_values -%}
-
-                    {%- for value in option.values -%}
-
-                      <span>
-                        {{ value }}
-                      </span>
-
-                    {%- endfor -%}
-
-                  {%- endfor -%}
-
-                </div>
-
-              {%- endif -%}
-
-            </article>
-
+            {%- render 'vanilla-collection-product-card', product: product -%}
           {%- endfor -%}
-
 
           {%- comment -%}
             PAGINATION
@@ -240,14 +108,11 @@
           {%- endcomment -%}
 
           {%- if paginate.pages > 1 -%}
-
             <nav
               class="collection-pagination"
               aria-label="Pagination"
             >
-
               {%- if paginate.previous -%}
-
                 <a
                   href="{{ paginate.previous.url }}"
                   class="pagination-previous"
@@ -255,16 +120,11 @@
                   ←
                   {{ section.settings.previous_text }}
                 </a>
-
               {%- endif -%}
 
-
               <div class="pagination-pages">
-
                 {%- for part in paginate.parts -%}
-
                   {%- if part.is_link -%}
-
                     <a
                       href="{{ part.url }}"
                       aria-label="Page {{ part.title }}"
@@ -273,7 +133,6 @@
                     </a>
 
                   {%- else -%}
-
                     <span
                       {% if part.title == paginate.current_page %}
                         aria-current="page"
@@ -281,16 +140,11 @@
                     >
                       {{ part.title }}
                     </span>
-
                   {%- endif -%}
-
                 {%- endfor -%}
-
               </div>
 
-
               {%- if paginate.next -%}
-
                 <a
                   href="{{ paginate.next.url }}"
                   class="pagination-next"
@@ -298,77 +152,46 @@
                   {{ section.settings.next_text }}
                   →
                 </a>
-
               {%- endif -%}
-
             </nav>
-
           {%- endif -%}
-
         {%- endpaginate -%}
-
       {%- endif -%}
-
     </section>
-
 
     {%- comment -%}
       DIVIDER / FOOTER AREA
     {%- endcomment -%}
 
     <section class="load-more-section">
-
       <div class="divider"></div>
-
     </section>
-
   </main>
-
 </div>
-
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-
-    const collectionCards = document.querySelectorAll(
-      '#CollectionGrid .catalogue-card'
-    );
+    const collectionCards = document.querySelectorAll('#CollectionGrid .catalogue-card');
 
     collectionCards.forEach(function (card) {
-
-      const link = card.querySelector('.catalogue-card-link');
-
-      if (!link) {
+      if (card.tagName !== 'A') {
         return;
       }
 
       card.addEventListener('keydown', function (event) {
-
-        if (
-          event.key === 'Enter' ||
-          event.key === ' '
-        ) {
-
+        if (event.key === 'Enter' || event.key === ' ') {
           if (event.target === card) {
-
             event.preventDefault();
 
-            link.click();
-
+            card.click();
           }
-
         }
-
       });
-
     });
-
   });
 </script>
 
-
 {% schema %}
-
 {
   "name": "Vanilla Collection",
 
@@ -377,7 +200,6 @@
   "class": "vanilla-collection-section",
 
   "settings": [
-
     {
       "type": "text",
       "id": "hero_main_title",
@@ -440,7 +262,6 @@
       "label": "Next Page Text",
       "default": "NEXT"
     }
-
   ],
 
   "presets": [
@@ -448,7 +269,5 @@
       "name": "Vanilla Collection"
     }
   ]
-
 }
-
 {% endschema %}
