@@ -308,6 +308,8 @@ button {
   justify-content: space-between;
   gap: 24px;
   align-items: flex-start;
+  flex-direction: column;
+
 }
 
 .product-details h3 {

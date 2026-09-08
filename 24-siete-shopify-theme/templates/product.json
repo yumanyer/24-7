@@ -5,7 +5,9 @@
       "blocks": {
         "variant_picker": {
           "type": "variant_picker",
-          "settings": {}
+          "settings": {
+            "custom_labels": "SELECT SIZE"
+          }
         },
         "buy_buttons": {
           "type": "buy_buttons",

@@ -31,12 +31,14 @@
         >
       {%- endif -%}
       
-      {%- if show_sn -%}
-        {%- liquid
-          assign sn_value = card_product.metafields[sn_metafield] | default: card_product.handle
-        -%}
-        <span class="tag">S/N: {{ sn_value }}</span>
-      {%- endif -%}
+{%- if show_sn -%}
+  {%- liquid
+    assign sn_parts = sn_metafield | split: '.'
+    assign sn_value = card_product.metafields[sn_parts[0]][sn_parts[1]] | default: card_product.handle
+  -%}
+  <!-- DEBUG: sn_metafield={{ sn_metafield }} | parts={{ sn_parts }} | raw_metafield={{ card_product.metafields[sn_parts[0]][sn_parts[1]] }} -->
+  <span class="tag">S/N: {{ sn_value }}</span>
+{%- endif -%}
     </div>
 
     <div class="catalogue-meta">

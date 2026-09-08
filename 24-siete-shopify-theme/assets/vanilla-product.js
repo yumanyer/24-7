@@ -68,6 +68,18 @@
   var selectedVariantScript =
     variantSelects && variantSelects.querySelector('[data-selected-variant]');
 
+  var submitButton = productForm ? productForm.querySelector('[type="submit"]') : null;
+  var submitLabelEl = submitButton ? submitButton.querySelector('span') : null;
+  var atcLabel = (submitLabelEl && submitLabelEl.textContent.trim()) || 'COMPRAR \u2192';
+
+  // Keep the buy-button label ("COMPRAR →") whenever Dawn's product-form
+  // resets the submit text after a variant change (product-form.js
+  // toggleSubmitButton re-uses window.variantStrings.addToCart).
+  if (atcLabel) {
+    window.variantStrings = window.variantStrings || {};
+    window.variantStrings.addToCart = atcLabel;
+  }
+
   function formatPrice(cents) {
     if (typeof window.formatMoney === 'function') {
       return window.formatMoney(cents, moneyFormat);
@@ -153,6 +165,32 @@
   // Initial state sync (keeps price/media/button consistent even when the
   // browser restores the last selected options).
   updateForVariant(findSelectedVariant() || variants[0] || null);
+
+  /* ----------------------------------------------------------
+     ADD-TO-CART CONFIRMATION (visual parity with the prototype)
+     The prototype swaps the button to "✓ AGREGADO AL CARRITO"
+     for ~2s after adding an item. Hook the theme's own
+     cart-update pub/sub event so the real /cart/add.js flow
+     keeps driving this feedback.
+     ---------------------------------------------------------- */
+  function showAddedConfirmation() {
+    if (!submitButton || !submitLabelEl) return;
+    submitLabelEl.textContent = '\u2713 AGREGADO AL CARRITO';
+    submitButton.style.backgroundColor = '#2a2a2a';
+    submitButton.style.color = '#ffffff';
+    clearTimeout(showAddedConfirmation._timer);
+    showAddedConfirmation._timer = setTimeout(function () {
+      submitLabelEl.textContent = atcLabel;
+      submitButton.style.backgroundColor = '';
+      submitButton.style.color = '';
+    }, 2000);
+  }
+
+  if (typeof subscribe === 'function' && typeof PUB_SUB_EVENTS !== 'undefined') {
+    subscribe(PUB_SUB_EVENTS.cartUpdate, function () {
+      showAddedConfirmation();
+    });
+  }
 
   /* ----------------------------------------------------------
      SCROLL REVEAL (visual parity with the prototype)
