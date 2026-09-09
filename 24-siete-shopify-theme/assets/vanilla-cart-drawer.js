@@ -374,7 +374,26 @@ class CartDrawer {
 
   removeItem(lineIndex) {
     if (window.routes && window.routes.cart_change_url) {
-      this._refreshing = null;
+      const removeBtn = document.querySelector(`.cart-item-remove[data-line="${lineIndex}"]`);
+      const itemEl = removeBtn ? removeBtn.closest('.cart-item') : null;
+
+      document.querySelectorAll('.cart-item-remove').forEach((b) => { b.disabled = true; });
+
+      if (itemEl) {
+        itemEl.style.transition = 'opacity 0.2s ease, transform 0.2s ease';
+        itemEl.style.opacity = '0';
+        itemEl.style.transform = 'translateX(20px)';
+      }
+
+      const remaining = this.getCartItems().filter((_, i) => i !== lineIndex - 1);
+      this.updateBadge(remaining.length);
+      this.updateSummary(remaining);
+
+      if (remaining.length === 0) {
+        const itemsList = document.querySelector('.cart-items-list');
+        if (itemsList) this.renderEmptyState(itemsList);
+      }
+
       fetch(window.routes.cart_change_url, {
         method: 'POST',
         headers: {
@@ -387,15 +406,33 @@ class CartDrawer {
         .then((cart) => {
           this.renderShopifyCart(cart);
         })
-        .catch(() => {
-          this.refreshFromServer();
-        });
+.catch((error) => {
+  console.error('Error al eliminar producto:', error);
+
+  this.refreshFromServer().finally(() => {
+    document.querySelectorAll('.cart-item-remove').forEach((b) => {
+      b.disabled = false;
+    });
+  });
+});
     } else {
       const cart = this.getCartItems();
       cart.splice(lineIndex - 1, 1);
       localStorage.setItem('cart', JSON.stringify(cart));
       this.renderCart();
     }
+  }
+
+  showRemoveError() {
+    const itemsList = document.querySelector('.cart-items-list');
+    if (!itemsList) return;
+    const existing = itemsList.querySelector('.cart-remove-error');
+    if (existing) existing.remove();
+    const errorEl = document.createElement('div');
+    errorEl.className = 'cart-remove-error';
+    errorEl.innerHTML = '<span>No se pudo eliminar el producto. Intentá de nuevo.</span>';
+    itemsList.prepend(errorEl);
+    setTimeout(() => { errorEl.remove(); }, 4000);
   }
 }
 
