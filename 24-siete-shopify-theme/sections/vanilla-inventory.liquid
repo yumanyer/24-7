@@ -1,5 +1,5 @@
 <section class="inventory-section" id="products">
-  <div class="inventory-header">
+  {% comment %} <div class="inventory-header">
     <div>
       <h2>{{ section.settings.title }}</h2>
       <p>{{ section.settings.subtitle }}</p>
@@ -9,7 +9,7 @@
       <button class="filter" type="button" data-filter="remeras">{{ section.settings.filter_buzos }}</button>
       <button class="filter" type="button" data-filter="accesorios">{{ section.settings.filter_remeras }}</button>
     </div>
-  </div>
+  </div> {% endcomment %}
 
   <div class="products-grid">
     {% for product in section.settings.collection.products limit: section.settings.products_limit %}
