@@ -182,7 +182,7 @@ class CartDrawer {
   renderItems(itemsList, cartItems) {
     itemsList.innerHTML = '';
 
-    cartItems.forEach((item) => {
+    cartItems.forEach((item, index) => {
       const itemElement = document.createElement('div');
       itemElement.className = 'cart-item';
 
@@ -207,8 +207,16 @@ class CartDrawer {
           </div>
           <div class="cart-item-price">${this.formatMoney(linePrice)}</div>
         </div>
+        <button class="cart-item-remove" data-line="${index + 1}" aria-label="Eliminar producto">×</button>
       `;
       itemsList.appendChild(itemElement);
+    });
+
+    itemsList.querySelectorAll('.cart-item-remove').forEach((btn) => {
+      btn.addEventListener('click', (e) => {
+        const line = parseInt(e.currentTarget.getAttribute('data-line'), 10);
+        this.removeItem(line);
+      });
     });
   }
 
@@ -361,6 +369,32 @@ class CartDrawer {
       this.renderCart();
     } catch {
       console.error('Error clearing cart');
+    }
+  }
+
+  removeItem(lineIndex) {
+    if (window.routes && window.routes.cart_change_url) {
+      this._refreshing = null;
+      fetch(window.routes.cart_change_url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Requested-With': 'XMLHttpRequest',
+        },
+        body: JSON.stringify({ line: lineIndex, quantity: 0 }),
+      })
+        .then((response) => response.json())
+        .then((cart) => {
+          this.renderShopifyCart(cart);
+        })
+        .catch(() => {
+          this.refreshFromServer();
+        });
+    } else {
+      const cart = this.getCartItems();
+      cart.splice(lineIndex - 1, 1);
+      localStorage.setItem('cart', JSON.stringify(cart));
+      this.renderCart();
     }
   }
 }
